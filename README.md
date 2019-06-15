@@ -2,7 +2,7 @@
 
 Some important changes in Strapi require some thoughts to be put into the design phase before starting working on a PR.
 
-The RFC (Request For Comments) process will help us create consensus among the core team and include as much feedback as possible from the community.
+The RFC (Request For Comments) process will help us create consensus among the core team and include as much feedback as possible from the community, for these upcoming changes.
 
 ## Process
 
