@@ -1,5 +1,5 @@
 - Start Date: 2019-06-21
-- RFC PR: (leave this empty)
+- RFC PR: [https://github.com/strapi/rfcs/pull/2](https://github.com/strapi/rfcs/pull/2)
 
 # Summary
 
