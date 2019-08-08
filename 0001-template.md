@@ -15,30 +15,20 @@ Below are the screens for the proposed implementation, which we have ready to su
 
 ## Content Type
 
-In the advanced options of the content type the user is able to enable the slug feature.
+When creating a new content type after setting the basic informations
 
-![Content Type enable slug](images/content-type-enable-slug.png )
+![Content Type enable slug](images/content-type-edit-flow-1.png )
 
-## Content Manager
+The user is able to configure the slug by clicking on the `Configure` button.
 
-In the Content Manager the user can change the property that is being used for the slug.
+![Content Type enable slug](images/content-type-edit-flow-2.png )
 
-![Content Manager changes](images/content-manager-changes.png)
+In the new options configuration screen the user will find an option to pick which property to use for the slug. In the future there are plans to add more options for each content type like draft & archive, ownership and versioning.
 
-## Property Edit changes
+![Content Type enable slug](images/content-type-edit-flow-3.png )
 
-If slug is enabled string properties will have the option to be used for slug.
-
-![Property use for slug](images/property-edit-flow-1.png) 
-
-Opening the property settings in the advanced tab the user can control if the property should be used for slug.
-
-![Property use for slug in advance settings](images/property-edit-flow-2.png)
-
-If enabled then it shows in the property list
-
-![Property used for slug](images/property-edit-flow-3.png)
-
+Once a content type is saved the user can always access the configuration options by clicking on the `Configure` button
+![Content Type enable slug](images/content-type-edit-flow-4.png )
 
 ## Instance View Updates
 
