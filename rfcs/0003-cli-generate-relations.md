@@ -18,36 +18,118 @@ From a user perspective, the generate:api command should be extended by every po
 
 https://strapi.io/documentation/3.0.0-beta.x/cli/CLI.html#strapi-generate-api
 
+ For optimal automation, it would be great to have an option to parse a json file containing the api definition. Due to the complexity of relations, for normal users an interactive cli would be great.
+
+To add the complexe relation type, there're many different natures. The file containing the api definition should have the following structure:
+
+```json
+{
+  "apis": {
+    "<api_name>": {
+      "attributes": {
+        "<attribute_name>": {
+          "type": "relation",
+          "nature": "oneWay|manyWay|oneToOne|oneToMany|manyToOne|manyToMany",
+          "relatedAttribute": "<related_api>"
+        },
+        "<attribute_name>": {
+          "type": "media",
+          "multiple": "true|false",
+          "required": "true|false",
+          "unique": "true|false"
+        },
+        "<attribute_name>": {
+          "type": "string|text",
+          "default": "<attribute_default>",
+          "required": "true|false",
+          "unique": "true|false",
+          "minLength": "<min_length>",
+          "maxLength": "<max_length>",
+        },
+        "<attribute_name>": {
+          "type": "richtext",
+          "default": "<attribute_default>",
+          "required": "true|false",
+          "minLength": "<min_length>",
+          "maxLength": "<max_length>",
+        },
+        "<attribute_name>": {
+          "type": "json",
+          "required": "true|false",
+          "unique": "true|false",
+        },
+        "<attribute_name>": {
+          "type": "enumeration",
+          "enum": ["<enum_1>", "<enum_2>", "..."],
+          "default": "<enum>",
+          "enumName": "<enum_name>",
+          "required": "true|false",
+          "unique": "true|false",
+        },
+        "<attribute_name>": {
+          "type": "password",
+          "required": "true|false",
+          "minLength": "<min_length>",
+          "maxLength": "<max_length>",
+        },
+        "<attribute_name>": {
+          "type": "integer|biginteger|float|decimal",
+          "default": "<attribute_default>",
+          "required": "true|false",
+          "unique": "true|false",
+          "min": "<min>",
+          "max": "<max>",
+        },
+        "<attribute_name>": {
+          "type": "date",
+          "default": "<attribute_default>",
+          "required": "true|false",
+          "unique": "true|false",
+        },
+        "<attribute_name>": {
+          "type": "boolean",
+          "required": "true|false",
+          "unique": "true|false",
+        }
+      }
+    }
+  }
+
+}
+```
+
+
+
 From a developers perspective, I think the following code in [before.js|https://github.com/strapi/strapi/blob/master/packages/strapi-generate-api/lib/before.js] on line 83 returns the attribute which is added into the models settings file:
 
 ```javascript
 scope.attributes = scope.args.attributes.map(attribute => {
-  if (_.isString(attribute)) {
-    const parts = attribute.split(':');
+ if (_.isString(attribute)) {
+   const parts = attribute.split(':');
 
-    parts[1] = parts[1] || 'string';
+   parts[1] = parts[1] || 'string';
 
-    // Handle invalid attributes.
-    if (!parts[1] || !parts[0]) {
-      invalidAttributes.push(
-        'Error: Invalid attribute notation `' + attribute + '`.'
-      );
-      return;
-    }
+   // Handle invalid attributes.
+   if (!parts[1] || !parts[0]) {
+     invalidAttributes.push(
+       'Error: Invalid attribute notation `' + attribute + '`.'
+     );
+     return;
+   }
 
-    return {
-      name: _.trim(_.deburr(parts[0].toLowerCase())),
-      params: {
-        type: _.trim(_.deburr(parts[1].toLowerCase())),
-      },
-    };
-  } else {
-    return _.has(attribute, 'params.type') ? attribute : undefined;
-  }
+   return {
+     name: _.trim(_.deburr(parts[0].toLowerCase())),
+     params: {
+       type: _.trim(_.deburr(parts[1].toLowerCase())),
+     },
+   };
+ } else {
+   return _.has(attribute, 'params.type') ? attribute : undefined;
+ }
 });
 ```
 
-To add the complexe relation type, there're many different forms. To think about edge-cases, I include the following examples:
+To think about edge-cases, I include the following examples:
 
 Relation from Source to Destination
 
