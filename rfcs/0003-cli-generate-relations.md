@@ -29,8 +29,14 @@ To add the complexe relation type, there're many different natures. The file con
       "attributes": {
         "<attribute_name>": {
           "type": "relation",
+          "target": "related_api",
           "nature": "oneWay|manyWay|oneToOne|oneToMany|manyToOne|manyToMany",
-          "relatedAttribute": "<related_api>"
+          "unique": "true|false",
+          "configurable": "true|false",
+          "dominant": "true|false",
+          "columnName": "<name>",
+          "relatedAttribute": "<related_attribute>",
+          "targetColumnName": "<target_column_name>"
         },
         "<attribute_name>": {
           "type": "media",
