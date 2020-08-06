@@ -15,8 +15,11 @@ Related PR: [#6515](https://github.com/strapi/strapi/pull/6515)
 
 ```js
 module.exports = {
-  lifecycles: {
-    onSchemaLoad(schema) { // Mongoose Schema object
+  schemaLifecycles: {
+    beforeSchemaLoad(client, orm, model) { // or ({client, orm, model})
+
+    },
+    afterSchemaLoad(client, orm, schema) { // Mongoose Schema object
       console.log(schema);
       schema.index({
         content: "text",
@@ -45,59 +48,36 @@ Additionally, I feel like this could open the doors to further customization and
 
 ## Idea 1
 
-I'd say we could have another lifecycle in the `models.js` file, which would look like
+I'd say we could have another lifecycle in the `models.js` file, which would look like this:
 
 ```js
 module.exports = {
-  lifecycles: {
-    onSchemaLoad(type, ...args) {
+  schemaLifecycles: {
+    beforeSchemaLoad(client, orm, model) {
       // ...
     },
-    beforeCreate(...args) { },
-	// ...
+    afterSchemaLoad(client, orm, schema) {
+      // ...
+    },
 };
 ```
 
-where `type` would be a string indicating the type of database (`mongoose`, `postgresql`, `sqlite`, `mysql` or `mariadb`) - to be further discussed.
+Alternatively, the function parameters will be provided inside an object `{client, orm, model}` instead - to be further discussed.
 
 With this setup, models could have a lifecycle like this, which would allow for changes based on the current database.
 
 ```js
 module.exports = {
-  lifecycles: {
-    onSchemaLoad(type, ...args) {
-      if (type === "mongoose") {
+  schemaLifecycles: {
+    afterSchemaLoad(client, orm, schema) {
+      if (client.type === "mongoose") {
         // do something
-      } else if (type === "sqlite") {
+      } else if (client.type === "sqlite") {
         // do something else
       }
     }
 };
 ```
-
-## Idea 2
-
-Another idea would be to have a function per database type:
-
-```js
-module.exports = {
-  onLoad: {
-    mongoose(...args) {
-      // do something
-    },
-    sqlite(...args) {
-      // do something else
-    },
-  },
-  lifecycles: {
-    // ...
-  },
-};
-```
-
-In both ideas, `...args` needs to be further discussed.
-However, for `mongoose` it should be the [`Schema`](https://mongoosejs.com/docs/api/schema.html) object.
-No word on `bookshelf` yet.
 
 # Tradeoffs
 
@@ -117,4 +97,4 @@ The `patch-package` approach is actually doable and stable, so that is the best 
 1. What to do with Bookshelf? Since it supports various different databases (`SQLite`, `ProtgreSQL`, `MySQL`, etc),
    it might need a way to differentiate between which is currently in use.
 2. Where to actually call the lifecycle on Bookshelf. I've looked at the code but couldn't figure out the best place yet.
-3. Debate idea 1 vs idea 2
+3. ~~Debate idea 1 vs idea 2~~
