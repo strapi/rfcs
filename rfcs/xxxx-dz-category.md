@@ -21,9 +21,13 @@ By selecting them in a dynamic zone, it would be better to group them by categor
 
 The DynamicZone component of the content manager plugin should be modified.
 
-`DynamicZone` should retrieve all the categories available and display for each category their components. 
+`DynamicZone` should retrieve all the categories available and display for each category their components.
 
-![solution](https://user-images.githubusercontent.com/505236/93095596-98177e00-f6a3-11ea-9fa6-70e8b92e73bd.jpg)
+A collapsible menu would allow the user to access the components by category.
+
+![collapse](https://user-images.githubusercontent.com/505236/93210607-310bcf00-f760-11ea-91df-ecfba777e99c.jpg)
+
+NB: Both categories and components will be sorted by alphabetical order.
 
 # Tradeoffs
 
