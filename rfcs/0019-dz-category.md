@@ -1,5 +1,5 @@
-- Start Date: (fill in today's date, 2020-09-14)
-- RFC PR: (leave this empty)
+- Start Date: 2020-09-14
+- RFC PR: [https://github.com/strapi/rfcs/pull/19](https://github.com/strapi/rfcs/pull/19)
 
 # Summary
 
