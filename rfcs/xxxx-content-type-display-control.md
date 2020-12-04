@@ -3,7 +3,7 @@
 
 # Summary
 
-Extend the Content Type format function and Model options definition `isManaged` to allow hide / show specified Content Types on purpose.
+Extend the Content Type format function and Model options definition by `isManaged` orio to allow hide / show specified Content Types on purpose.
 
 # Example
 
