@@ -20,7 +20,7 @@ First we need to create a component in our plugin to describe which data it will
 Our component will be called `gps-point` and have two `float` fields (for `latitude` and `longitude`)  
 _Those fields will be retreived in Rest API/GraphQL call such as any other components._
 
-### Strapi Backend API
+### Backend API
 
 **file:** `./plugins/custom-field-mapbox/components/gps-point.json`
 ```javascript
@@ -42,10 +42,15 @@ _Those fields will be retreived in Rest API/GraphQL call such as any other compo
 }
 ```
 
-> note: we have to determine a format for `collectionName`
+> :mailbox: **note:**  we have to determine a format for `collectionName` to avoid collisions
+
 
 <details>
-  <summary>:rocket: Strapi v4 example: ./strapi-server.js</summary>
+  <summary>
+  :rocket:  Strapi v4 example
+  </summary>
+
+  > This is an example considering [Plugin API RFC](https://plugin-api-rfc.vercel.app/)
   
   **file:** `./strapi-server.js`
   ```javascript
@@ -89,7 +94,7 @@ _Those fields will be retreived in Rest API/GraphQL call such as any other compo
   ```
 </details>
 
-### Strapi Admin Frontend 
+### Admin Frontend 
 
 This **optional** step allow to register a React Component that would handle edition of our component in `content-manager`   
 
@@ -118,13 +123,14 @@ export default strapi => {
 };
 ```
 
-> note: we have to define propTypes for the inputs components
+> :mailbox: **note:** we have to define propTypes for the inputs components  
 
 <details>
-  <summary>:rocket: Strapi v4 example: ./strapi-admin.js</summary>
+  <summary>:rocket: Strapi v4 example</summary>
+
+  > This is an example considering [Plugin API RFC](https://plugin-api-rfc.vercel.app/)
 
   **file:** `./strapi-admin.js`
-
   ```javascript
   module.exports = () => {
     return {
@@ -186,7 +192,7 @@ edition pages in the admin frontend _(unless overriding them in extentions)_.
 Using `components` to describe our fields reduce the complexity of this functionality  
 We can see this as an evolution of `components`, instead of an evolutions of `fields`
 
-Allowing plugins to handle logic about custom fields will provide Strapi community to create plugins such as:
+Allowing plugins to handle logic about custom fields will provide Strapi's community to create plugins such as:
 - mapbox/google geo fields plugins
 - seo fields plugins
 - etc ...
@@ -194,16 +200,9 @@ Allowing plugins to handle logic about custom fields will provide Strapi communi
 
 # Detailed design
 
-_todo_
+> :question: I want to discuss about the feature described in the example before going deeper in the implementation details
 
 # Tradeoffs
 
 As we are using `components` underneath, we are not able to add lifecycle hook.
-
-# Alternatives
-
-_todo_
-
-# Unresolved questions
-
-_todo_
+We can not by this design use nested custom fields.
