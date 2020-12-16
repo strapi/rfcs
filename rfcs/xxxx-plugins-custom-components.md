@@ -1,5 +1,5 @@
-- Start Date: (fill in today's date, YYYY-MM-DD)
-- RFC PR: (leave this empty)
+- Start Date: 2020-12-16
+- RFC PR: 
 
 # Summary
 
