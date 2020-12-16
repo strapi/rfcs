@@ -11,8 +11,7 @@ Allow plugins to create `Custom Fields` by:
 
 This is an example of implementing a field that represent a GPS point (latitude, longitude) and which will be editable with a marker on a map on the `content-manager` edition view
 
-For this example we conceive that we use mapbox to render our map.  
-We may want to register a new setting for the mapbox api key.
+Let's say we use mapbox to render our map, and we have registered a new admin setting for the mapbox api key.
 
 ## Registering custom fields
 
@@ -101,7 +100,7 @@ We may also want the marker to be draggable to update models data.
 **file:** `./plugins/custom-field-mapbox/admin/src/index.js`
 
 ```javascript
-// InputMapboxPoint is the component that render and handle the map
+// InputMapboxPoint is the component that render the map
 import InputMapboxPoint from './components/InputMapboxPoint';
 
 export default strapi => {
