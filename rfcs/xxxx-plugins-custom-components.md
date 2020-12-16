@@ -13,6 +13,8 @@ This is an example of implementing a Map view of GPS coordinates with Mapbox
 
 ## Register custom fields
 
+First we need to create a component in our plugin to describe which data it need
+
 ### Strapi Backend API
 
 **file:** `./plugins/custom-field-mapbox/components/gps-point.json`
@@ -34,6 +36,8 @@ This is an example of implementing a Map view of GPS coordinates with Mapbox
   }
 }
 ```
+
+> note: we have to determine a format for `collectionName`
 
 <details>
   <summary>:rocket: Strapi v4 example: ./strapi-server.js</summary>
@@ -82,6 +86,9 @@ This is an example of implementing a Map view of GPS coordinates with Mapbox
 
 ### Strapi Admin Frontend 
 
+This optional step allow us to register a react component that would handle edition of our field
+If no component is provided default component view is used
+
 **file:** `./plugins/custom-field-mapbox/admin/src/index.js`
 
 ```javascript
@@ -103,7 +110,7 @@ export default strapi => {
 ```
 
 <details>
-  <summary>:rocket: Strapi v4 example: ./strapi-admin.js </summary>
+  <summary>:rocket: Strapi v4 example: ./strapi-admin.js</summary>
 
   **file:** `./strapi-admin.js`
 
@@ -126,8 +133,11 @@ export default strapi => {
 
 ## Using custom fields
 
+We can use our field like any other component, notice the `plugin` entry
+
+**file:** `./api/restaurant/models/restaurant.settings.json`
 ```javascript
-// ./api/restaurant/models/Restaurant.settings.json
+// 
 {
   "kind": "collectionType",
   "info": {
@@ -161,7 +171,7 @@ The idea come from the [`Custom Fields`](https://portal.productboard.com/strapi/
 It is actually not possible to cleanly extend the `content-manager` 
 edition pages in the admin frontend _(unless overriding them in extentions)_.  
 
-We can use `components` to describe how our new field would be, and optionnaly associate a react component into it on the Admin Frontend.
+Using `components` to describe our fields reduce the complexity of this functionality _(we can see it as an evolution of `components`, instead of an evolutions of `fields`)_
 
 
 # Detailed design
