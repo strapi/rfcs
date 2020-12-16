@@ -86,7 +86,7 @@ First we need to create a component in our plugin to describe which data it need
 
 ### Strapi Admin Frontend 
 
-This optional step allow us to register a react component that would handle edition of our field
+This optional step allow us to register a react component that would handle edition of our field  
 If no component is provided default component view is used
 
 **file:** `./plugins/custom-field-mapbox/admin/src/index.js`
