@@ -5,7 +5,7 @@
 
 Allow plugins to create `Custom Fields` by: 
 - registering components in Backend API (to define the schema of our field)
-- (optionally) registering react components for edition in Admin Frontend 
+- (optionally) registering React Components for edition in the Admin Frontend 
 
 # Example
 
@@ -198,7 +198,7 @@ _todo_
 
 # Tradeoffs
 
-_todo_
+As we are using `components` underneath, we are not able to add lifecycle hook.
 
 # Alternatives
 
