@@ -11,7 +11,7 @@ Allow plugins to create `Custom Fields` by:
 
 This is an example of implementing a Map view of GPS coordinates with Mapbox
 
-## Register custom fields
+## Registering custom fields
 
 First we need to create a component in our plugin to describe which data it need
 
@@ -171,7 +171,13 @@ The idea come from the [`Custom Fields`](https://portal.productboard.com/strapi/
 It is actually not possible to cleanly extend the `content-manager` 
 edition pages in the admin frontend _(unless overriding them in extentions)_.  
 
-Using `components` to describe our fields reduce the complexity of this functionality _(we can see it as an evolution of `components`, instead of an evolutions of `fields`)_
+Using `components` to describe our fields reduce the complexity of this functionality  
+We can see this as an evolution of `components`, instead of an evolutions of `fields`
+
+Allowing plugins to handle logic about custom fields will provide Strapi community to create plugins such as:
+- mapbox/google geo fields plugins
+- seo fields plugins
+- etc ...
 
 
 # Detailed design
