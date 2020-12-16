@@ -36,9 +36,7 @@ This is an example of implementing a Map view of GPS coordinates with Mapbox
 ```
 
 <details>
-  <summary>
-:rocket: Strapi v4 example: `./strapi-server.js`
-  </summary>
+  <summary>:rocket: Strapi v4 example: ./strapi-server.js</summary>
   
   **file:** `./strapi-server.js`
   ```javascript
