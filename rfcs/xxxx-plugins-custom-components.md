@@ -206,3 +206,5 @@ Allowing plugins to handle logic about custom fields will provide Strapi's commu
 
 As we are using `components` underneath, we are not able to add lifecycle hook.
 We can not by this design use nested custom fields.
+
+> :mailbox: **note:** About not creating real fields like `string`, `uid`, `time` is about separation of concerns: fields need to handle primitive values, but this rfc aim to  use structured data istead 
