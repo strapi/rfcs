@@ -5,15 +5,21 @@
 
 Allow plugins to create `Custom Fields` by: 
 - registering components in Backend API (to define the schema of our field)
-- registering react components for edition in Admin Frontend
+- (optionally) registering react components for edition in Admin Frontend 
 
 # Example
 
-This is an example of implementing a Map view of GPS coordinates with Mapbox
+This is an example of implementing a field that represent a GPS point (latitude, longitude) and which will be editable with a marker on a map on the `content-manager` edition view
+
+For this example we conceive that we use mapbox to render our map.  
+We may want to register a new setting for the mapbox api key.
 
 ## Registering custom fields
 
-First we need to create a component in our plugin to describe which data it need
+First we need to create a component in our plugin to describe which data it will need.
+
+Our component will be called `gps-point` and have two `float` fields (for `latitude` and `longitude`)  
+_Those fields will be retreived in Rest API/GraphQL call such as any other components._
 
 ### Strapi Backend API
 
@@ -86,12 +92,16 @@ First we need to create a component in our plugin to describe which data it need
 
 ### Strapi Admin Frontend 
 
-This optional step allow us to register a react component that would handle edition of our field  
-If no component is provided default component view is used
+This **optional** step allow to register a React Component that would handle edition of our component in `content-manager`   
+
+In this example, we want to display a map with a marker located at the coordinates of our `latitude` and `longitude` fields.  
+We may also want the marker to be draggable to update models data.
+
 
 **file:** `./plugins/custom-field-mapbox/admin/src/index.js`
 
 ```javascript
+// InputMapboxPoint is the component that render and handle the map
 import InputMapboxPoint from './components/InputMapboxPoint';
 
 export default strapi => {
@@ -108,6 +118,8 @@ export default strapi => {
   return strapi.registerPlugin(plugin);
 };
 ```
+
+> note: we have to define propTypes for the inputs components
 
 <details>
   <summary>:rocket: Strapi v4 example: ./strapi-admin.js</summary>
@@ -133,11 +145,12 @@ export default strapi => {
 
 ## Using custom fields
 
-We can use our field like any other component, notice the `plugin` entry
+Due to the usage of `components` we will be able to associate our field to `models` like any other components, notice the `plugin` entry
+
+Now when we will edit or create any `restaurant` we will have our mapbox displayed instead of the two native inputs for the floats values
 
 **file:** `./api/restaurant/models/restaurant.settings.json`
 ```javascript
-// 
 {
   "kind": "collectionType",
   "info": {
@@ -182,26 +195,16 @@ Allowing plugins to handle logic about custom fields will provide Strapi communi
 
 # Detailed design
 
-Describe the proposal in details:
-
-- Explaining the design so that someone who knows Strapi can understand and someone who works on it can implement the proposal. 
-- Think about edge-cases and include examples.
+_todo_
 
 # Tradeoffs
 
-What potential tradeoffs are involved with this proposal.
-
-- Complexity
-- Work load of implementation
-- Can this be implemented outside of Strapi's core packages
-- How does this proposal integrate with the current features being implemented
-- Cost of migrating existing Strapi applications (is it a breaking change?)
-- Does implementing this proposal mean reworking teaching resources (videos, tutorials, documentations)?
+_todo_
 
 # Alternatives
 
-What are the alternatives?
+_todo_
 
 # Unresolved questions
 
-Optional, but suggested for first draft proposals. What parts of the design are still TBD(To be defined)?
+_todo_
