@@ -200,7 +200,7 @@ Allowing plugins to handle logic about custom fields will provide Strapi's commu
 
 # Detailed design
 
-> :question: I want to discuss about the feature described in the example before going deeper in the implementation details
+> :question: I want to [discuss here](https://github.com/strapi/rfcs/pull/24) about this feature before going deeper in the implementation
 
 # Tradeoffs
 
