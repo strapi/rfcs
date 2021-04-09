@@ -16,9 +16,8 @@ Add new type of field (eg. **sorter**) in content-type-builder and content-manag
 
 ![image](https://user-images.githubusercontent.com/2634448/111315390-00531680-866b-11eb-8ab7-136e957d3fed.png)
 
-- Add support drag and drop in list view to be able to sort list (plugin-content-manager);
-
-https://user-images.githubusercontent.com/2634448/111315496-1bbe2180-866b-11eb-92df-2b5eb136b146.mov
+- Add support drag and drop in list view to be able to sort list (plugin-content-manager);  
+  Video: https://user-images.githubusercontent.com/2634448/111315496-1bbe2180-866b-11eb-92df-2b5eb136b146.mov
 
 - Modify connector-bookshelf to integrate new type of field (same as email/password);
 
