@@ -101,7 +101,7 @@ Here are a few examples with this convention:
 {
   "data": [
     {
-      /* ... */
+      "title": "test"
     }
   ]
 }
@@ -455,10 +455,10 @@ qs.stringify({
 
 ```json
 {
-  "data" {
+  "data": {
     "title": "Hello",
     "relation": 2,
-    "relations": [2, 4],
+    "relations": [2, 4]
   }
 }
 ```
@@ -467,7 +467,7 @@ qs.stringify({
 
 ```json
 {
-  "data" {
+  "data": {
     "id": 1,
     "attributes": {},
     "meta": {}
@@ -484,10 +484,10 @@ qs.stringify({
 
 ```json
 {
-  "data" {
+  "data": {
     "title": "Hello",
     "relation": 2,
-    "relations": [2, 4],
+    "relations": [2, 4]
   }
 }
 ```
@@ -496,7 +496,7 @@ qs.stringify({
 
 ```json
 {
-  "data" {
+  "data": {
     "id": 1,
     "attributes": {},
     "meta": {}
@@ -513,7 +513,7 @@ qs.stringify({
 
 ```json
 {
-  "data" {
+  "data": {
     "id": 1,
     "attributes": {},
     "meta": {}
