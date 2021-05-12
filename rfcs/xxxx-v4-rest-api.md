@@ -56,29 +56,30 @@ We want to prefix the `Content Api` routes with `/api` so it lives in its own se
 
 **Glossary:**
 
-- `pluralApiId`: the plural version of the content type name (e.g: `articles` and not `article`)
+- `apiID`: the content type API Identifier. This is the technical name throughout your code (e.g: `article`)
+- `pluralApiID`: the plural version of the content type API Identifier (e.g: `articles` and not `article`)
 - `documentId`: the id of the one document
 
 **Collection Types**
 
 | Method   | Url                                             | Desc                                                                    |
 | -------- | ----------------------------------------------- | ----------------------------------------------------------------------- |
-| `GET`    | `/api/:pluralApiId`                             | Find a list of documents                                                |
-| `POST`   | `/api/:pluralApiId`                             | Create a document                                                       |
-| `GET`    | `/api/:pluralApiId/:documentId`                 | Find a document                                                         |
-| `PUT`    | `/api/:pluralApiId/:documentId`                 | Update a document                                                       |
-| `DELETE` | `/api/:pluralApiId/:documentId`                 | Delete a document                                                       |
-| `POST`   | `/api/:pluralApiId/actions/:action`             | Actions on the collection of documents (bulk actions, custom action...) |
-| `POST`   | `/api/:pluralApiId/:documentId/actions/:action` | Actions on a specific document                                          |
+| `GET`    | `/api/:pluralApiID`                             | Find a list of documents                                                |
+| `POST`   | `/api/:pluralApiID`                             | Create a document                                                       |
+| `GET`    | `/api/:pluralApiID/:documentId`                 | Find a document                                                         |
+| `PUT`    | `/api/:pluralApiID/:documentId`                 | Update a document                                                       |
+| `DELETE` | `/api/:pluralApiID/:documentId`                 | Delete a document                                                       |
+| `POST`   | `/api/:pluralApiID/actions/:action`             | Actions on the collection of documents (bulk actions, custom action...) |
+| `POST`   | `/api/:pluralApiID/:documentId/actions/:action` | Actions on a specific document                                          |
 
 **Single Types**
 
-| Method   | Url                                 | Desc                                          |
-| -------- | ----------------------------------- | --------------------------------------------- |
-| `GET`    | `/api/:pluralApiId`                 | Find document                                 |
-| `PUT`    | `/api/:pluralApiId`                 | Set / Update document                         |
-| `DELETE` | `/api/:pluralApiId`                 | Delete document                               |
-| `POST`   | `/api/:pluralApiId/actions/:action` | Actions on the single type (custom action...) |
+| Method   | Url                           | Desc                                          |
+| -------- | ----------------------------- | --------------------------------------------- |
+| `GET`    | `/api/:apiID`                 | Find document                                 |
+| `PUT`    | `/api/:apiID`                 | Set / Update document                         |
+| `DELETE` | `/api/:apiID`                 | Delete document                               |
+| `POST`   | `/api/:apiID/actions/:action` | Actions on the single type (custom action...) |
 
 ## Retrieving Data
 
