@@ -52,7 +52,7 @@ The main motivation for this change is to make the API more flexible for future 
 
 ## Endpoints
 
-We want to prefix the `Content Api` routes with `/api` so it lives in it's own separate space.
+We want to prefix the `Content Api` routes with `/api` so it lives in its own separate space.
 
 **Glossary:**
 
