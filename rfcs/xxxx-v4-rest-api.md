@@ -7,7 +7,7 @@ Here is a first draft of what we would like the REST API to look like in v4.
 
 # Example
 
-**url**: `GET /api/articles`
+**Url**: `GET /api/articles`
 
 **Response**
 
@@ -52,8 +52,7 @@ The main motivation for this change is to make the API more flexible for future 
 
 ## Endpoints
 
-We would like to prefix the `Content Api` routes with `/api` to make it easier to differentiate & allow setting middlewares directly on the entire `Content API`.
-This should also prevent use from creating unintended conflicts in the route names between the `Content API` & the `Admin Panel API`.
+We want to prefix the `Content Api` routes with `/api` so it lives in it's own separate space.
 
 **Glossary:**
 
@@ -81,43 +80,13 @@ This should also prevent use from creating unintended conflicts in the route nam
 | `DELETE` | `/api/:pluralApiId`                 | Delete document                               |
 | `POST`   | `/api/:pluralApiId/actions/:action` | Actions on the single type (custom action...) |
 
-### Actions
-
-In the endpoints list you can see a few routes called **Actions**.
-
-The goal is to normalize how we can extend a `Content Type API` with new actions that don't fit the basic `CRUD` REST API & that aren't REST compliant or making them compliant would make the developer experience worse.
-
-Actions have a name and you use an HTTP `POST` request with a `JSON` body to send the required information for the action to run.
-
-Here are a few examples with this convention:
-
-#### Bulk Create
-
-**url**: `POST /api/articles/actions/bulkCreate`
-
-**Request**
-
-```json
-{
-  "data": [
-    {
-      "title": "test"
-    }
-  ]
-}
-```
-
-#### Publish
-
-**url**: `POST /api/articles/1/actions/publish`
-
 ## Retrieving Data
 
 ### Fetching Entities
 
 #### Fetching a collection of entities
 
-**url**: `GET /api/:pluralApiId`
+**Url**: `GET /api/:pluralApiId`
 
 **Response**
 
@@ -144,7 +113,7 @@ Here are a few examples with this convention:
 
 #### Fetching one entity
 
-**url**: `GET /api/:pluralApiId/:documentId`
+**Url**: `GET /api/:pluralApiId/:documentId`
 
 **Response**
 
@@ -309,7 +278,7 @@ Options (Please give us your feedback in the comments :D)
 **Examples**
 
 ```
-GET /api/:pluralApiId?filters[title][$eq]="Hello"
+GET /api/:pluralApiId?filters[title][$eq]=Hello
 ```
 
 Using `qs`
@@ -449,7 +418,7 @@ qs.stringify({
 
 ### Creating
 
-**url**: `POST /api/:pluralApiId`
+**Url**: `POST /api/:pluralApiId`
 
 **Request**
 
@@ -478,7 +447,7 @@ qs.stringify({
 
 ### Updating
 
-**url**: `PUT /api/:pluralApiId/:documentId`
+**Url**: `PUT /api/:pluralApiId/:documentId`
 
 **Request**
 
@@ -507,7 +476,7 @@ qs.stringify({
 
 ### Deleting
 
-**url**: `DELETE /api/:pluralApiId/:documentId`
+**Url**: `DELETE /api/:pluralApiId/:documentId`
 
 **Response**
 
@@ -521,6 +490,40 @@ qs.stringify({
   "meta": {}
 }
 ```
+
+### Actions
+
+In the endpoints list you can see a few routes called **Actions**.
+
+The goal is to normalize how we can extend a `Content Type API` with new actions that don't fit the basic `CRUD` REST API & that aren't REST compliant or that would have a bad developer experience if we made them compliant.
+
+Actions have a `name`. You can run them by making an HTTP `POST` request with a `JSON` body to send the required information for the action to run.
+
+Here are a few examples we can implement with this convention:
+
+**_Bulk Create_**
+
+An action that applies to the collection of document
+
+**Url**: `POST /api/articles/actions/bulkCreate`
+
+**Request**
+
+```json
+{
+  "data": [
+    {
+      "title": "test"
+    }
+  ]
+}
+```
+
+**_Publish_**
+
+An action run for a specific document
+
+**Url**: `POST /api/articles/1/actions/publish`
 
 ## Errors
 
