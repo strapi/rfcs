@@ -83,7 +83,7 @@ const articleDef = {
 
 This relation is in one direction only (from Article to Category). It means you cannot fetch or edit the `articles` from a `category` in the Admin Panel.
 
-To make the relation visible in both direction you can use the following setup
+To make the relation visible in both directions you can use the following setup
 
 ```js
 const articleDef = {
