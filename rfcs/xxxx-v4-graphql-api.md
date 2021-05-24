@@ -190,7 +190,7 @@ single value or array of value
 
 ```graphql
 {
-  documents(filters: { name: "test", $or: [{ price: { $gt 10 }}, { title: { $startsWith: "Book" }}] }) {
+  documents(filters: { name: "test", $or: [{ price: { $gt: 10 }}, { title: { $startsWith: "Book" }}] }) {
     data {
       id
     }
