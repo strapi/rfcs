@@ -99,7 +99,7 @@ const articleDef = {
 
 const categoryDef = {
   attributes: {
-    category: {
+    articles: {
       type: "relation",
       relation: "oneToMany",
       target: "article",
