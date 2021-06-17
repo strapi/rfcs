@@ -3,7 +3,7 @@
 
 # Summary
 
-Here is a first draft of what we would like the REST API to look like in v4.
+Here is a first draft of what we would like the GraphQL API to look like in v4.
 
 # Example
 
