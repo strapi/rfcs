@@ -25,7 +25,7 @@ db.query("article").findMany({
 
 # Motivation
 
-We want to make sure we have a more flexible and powerfull database layer to build the futur features of Strapi.
+We want to make sure we have a more flexible and powerful database layer to build future features of Strapi onto.
 
 Moreover we want to provide a better experience and more possibilities for plugin developers and application developers to build advanced business logic into their plugins or applications.
 
