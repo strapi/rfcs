@@ -35,7 +35,7 @@ This layer is really made for database queries and is at more low-level than our
 
 ## Query API
 
-To work with entities in the database you can user the Query api:
+To work with entities in the database you can use the Query api:
 
 **Example**
 
