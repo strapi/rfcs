@@ -100,7 +100,7 @@ const entries = await db.query("article").findMany({
 });
 ```
 
-### `findWithCount(params)` => `[Entry[], number]`
+### `findManyWithCount(params)` => `[Entry[], number]`
 
 Finds and counts entries matching the params
 
@@ -118,7 +118,7 @@ Finds and counts entries matching the params
 **Example**
 
 ```js
-const [entries, count] = await db.query("article").findWithCount({
+const [entries, count] = await db.query("article").findManyWithCount({
   select: ["title", "description"],
   where: { title: "Hello World" },
   orderBy: { title: "DESC" },
@@ -655,12 +655,33 @@ const entries = db.query("article").findMany({
 
 With this new database layer, relations and components have a unified API for populating them.
 
-You can populate by passing an array of attribute names
+You can populate by passing an array of attribute names.
 
 ```js
-db.query("article").findMany({
-  populate: ["componentA", "relationA"],
+const entry = await db.query("article").findMany({
+  populate: ["category", "tags"],
 });
+
+/*
+{
+  id: 1,
+  title: 'Hello world',
+  category: {
+    id: 1,
+    name: 'Category',
+  },
+  tags: [
+    {
+      id: 1,
+      name: 'Tag 1' 
+    },
+    {
+      id: 2,
+      name: 'Tag 2' 
+    }
+  ]
+}
+*/
 ```
 
 For more advanced usage you can pass an object
@@ -668,9 +689,8 @@ For more advanced usage you can pass an object
 ```js
 db.query("article").findMany({
   populate: {
-    componentB: true,
-    dynamiczoneA: true,
-    relation: someLogic || true,
+    category: true,
+    tags: true,
   },
 });
 ```
@@ -680,22 +700,20 @@ You can also apply where filters and select or populate nested relations
 ```js
 db.query("article").findMany({
   populate: {
-    relationA: {
+    tags: {
+      select: ["id", "name"],
       where: {
         name: {
-          $contains: "Strapi",
+          $not: {
+            $startsWith: "internal::",
+          },
         },
       },
-    },
-
-    repeatableComponent: {
-      select: ["someAttributeName"],
-      orderBy: ["someAttributeName"],
+      orderBy: { name: "DESC" },
       populate: {
-        componentRelationA: true,
+        tagCategory: true,
       },
     },
-
     // NOTE: We can't do the same on dynamic zones as their polymorphic nature prevents it for now.
     // We will explore some concepts like graphQL fragments to allow this later on
     dynamiczoneA: true,
