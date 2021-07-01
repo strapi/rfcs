@@ -29,7 +29,7 @@ We want to make sure we have a more flexible and powerful database layer to buil
 
 Moreover we want to provide a better experience and more possibilities for plugin developers and application developers to build advanced business logic into their plugins or applications.
 
-This layer is really made for database queries and is at a lower level than our previous version. This layer isn't abstracting a lot of things so we can have full control.
+This layer is really made for database queries and is at more low-level than our previous version. This layer isn't abstracting a lot of things so developers can have full control.
 
 # Detailed design
 
