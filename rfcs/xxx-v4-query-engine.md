@@ -10,7 +10,7 @@ The query engine should mostly be used by plugin developers, developers adding c
 # Example
 
 ```js
-qb.query("article").findMany({
+db.query("article").findMany({
   where: {
     title: {
       $startWith: "2021",
