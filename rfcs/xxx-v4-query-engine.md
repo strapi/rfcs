@@ -304,7 +304,7 @@ const count = await db.query("article").count({
 
 ## Query Builder
 
-When in need fore more control over the queries than with the Query API you can use the underlying query builder.
+When you need more control than what the Query API providers, you can use the underlying query builder.
 
 > The API will specified at a later time
 
