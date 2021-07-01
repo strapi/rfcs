@@ -3,7 +3,7 @@
 
 # Summary
 
-In v4 we are build a new database layer to support the futur evolution of Strapi and we are introducing a new query engine with it.
+In v4 we are build a new database layer to support the future evolution of Strapi and we are introducing a new query engine along with it.
 
 The query engine should mostly be used by plugin developers, developers adding custom business logic to their applications and the Strapi core team.
 
