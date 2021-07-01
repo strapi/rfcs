@@ -3,14 +3,14 @@
 
 # Summary
 
-In v4 we are build a new database layer to support the futur evolution of Strapi and we are introducing a new query engine with it.
+In v4 we are build a new database layer to support the future evolution of Strapi and we are introducing a new query engine along with it.
 
 The query engine should mostly be used by plugin developers, developers adding custom business logic to their applications and the Strapi core team.
 
 # Example
 
 ```js
-qb.query("article").findMany({
+db.query("article").findMany({
   where: {
     title: {
       $startWith: "2021",
@@ -25,17 +25,17 @@ qb.query("article").findMany({
 
 # Motivation
 
-We want to make sure we have a more flexible and powerfull database layer to build the futur features of Strapi.
+We want to make sure we have a more flexible and powerful database layer to build future features of Strapi onto.
 
 Moreover we want to provide a better experience and more possibilities for plugin developers and application developers to build advanced business logic into their plugins or applications.
 
-This layer is really made for database queries and is at a lower level than our previous version. This layer isn't abstracting a lot of things so we can have full control.
+This layer is really made for database queries and is at more low-level than our previous version. This layer isn't abstracting a lot of things so developers can have full control.
 
 # Detailed design
 
 ## Query API
 
-To work with entities in the database you can user the Query api:
+To work with entities in the database you can use the Query api:
 
 **Example**
 
@@ -304,7 +304,7 @@ const count = await db.query("article").count({
 
 ## Query Builder
 
-When in need fore more control over the queries than with the Query API you can use the underlying query builder.
+When you need more control than what the Query API providers, you can use the underlying query builder.
 
 > The API will specified at a later time
 
