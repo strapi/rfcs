@@ -1,6 +1,6 @@
-# Strapi RFCs
+# Kanvas RFCs
 
-Some important changes in Strapi require some thoughts to be put into the design phase before starting working on a PR.
+Some important changes in Kanvas require some thoughts to be put into the design phase before starting working on a PR.
 
 The RFC (Request For Comments) process will help us create consensus among the core team and include as much feedback as possible from the community, for these upcoming changes.
 
@@ -20,7 +20,10 @@ The RFC (Request For Comments) process will help us create consensus among the c
 
 ## Active RFCs
 
-Once an RFC becomes active, then authors may implement it and submit the feature as a pull request to the Strapi repository.
+Once an RFC becomes active, then authors may implement it and submit the feature as a pull request to the Kanvas repository the RCF's impacts
+- Core
+- Packages
+- Admin
 
 A RFC being 'active' does not necessarily mean the feature will ultimately be merged; it does mean that the core team has agreed to it in principle and are open to merging it.
 
@@ -29,9 +32,10 @@ Furthermore, the fact that a given RFC has been accepted and is 'active' implies
 ## Reviewing RFCs
 Each week the team will attempt to review some portion of then open RFC pull requests.
 
-**Strapi's RFC process owes its inspiration to the [React RFC process], [Yarn RFC process], [Rust RFC process], and [Ember RFC process]**
+**Kanvas's RFC process owes its inspiration to the [React RFC process], [Yarn RFC process], [Rust RFC process], [Ember RFC process] and [Strapi RFC process]**
 
 [React RFC process]: https://github.com/reactjs/rfcs
 [Yarn RFC process]: https://github.com/yarnpkg/rfcs
 [Rust RFC process]: https://github.com/rust-lang/rfcs
 [Ember RFC process]: https://github.com/emberjs/rfcs
+[Strapi RFC process]: https://github.com/strapi/rfcs
