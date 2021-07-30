@@ -52,9 +52,10 @@ $result = ArrayToXml::convert($document, [
     ],
 ], true, 'UTF-8');
 
-// Get the string xmml and save on file
-$root = simplexml_load_string($result);
-$root->save('file.xml');
+$notification = new AdfNotification($ownerCompanyUser);
+$notification->setMessage($result);
+$ownerCompanyUser->notify($notification);
+
 
 ```
 
