@@ -5,60 +5,74 @@
 
 The ADF have a huge growing, the ADF is a communication way between Dealer CRM, the ADF can has any information, using xml tags. Once Company can has a template for share the lead information, for example Demo Dealer 1 can share information of the lead, but Dealer Demo 2 can share information about lead, vehicle and vendor.
 
-Both company must has a template for share the information. This template can be storage in the json params of ADF rules. We can set a default Rule with the default template , but if the company need a custom template must be duplicate the default rule and modify the new rule and set the custom template in the params
+Both company must has a template for share the information. This template can be storage in the json params of ADF rules. We can set a default Rule with the default template , but if the company need a custom template must be duplicate the default rule and modify the new rule and set the custom template in the params.
+
+For use ADF must use [Workflows](https://github.com/bakaphp/kanvas-packages/tree/0.3/src/WorkflowsRules)
+
 # Example
 
+## Add Rules to Entity
+
 ```
+<?php 
 
+declare(strict_types = 1);
+use Kanvas\Packages\WorkflowsRules\Contracts\Traits\RulesTrait;
 
-$documentAsArray = json_decode(json_encode($template), true);
-
-// Recursive function for parse arra xml to array with xml key and database value
-
-function changeValueXMl(array $element, ?array $values = null)
+class Users extends BaseModel 
 {
-    $arrayOfDatabase = $values ?? [
-        'example' => 'Valor del Example',
-        'examplePath' => [
-            'name' => 'Valor del examplePath > name',
-            'lastname' => 'Valor del examplePath > lastname',
-        ]
-    ];
-    foreach ($element as $key => $value) {
-        //check if is array, in this case search into to array
-        if (is_array($value)) {
-            if (key_exists($key, $arrayOfDatabase)) {
-                $element[$key] = changeValueXMl($value, $arrayOfDatabase[$key]);
-                continue;
-            }
-        }
-        echo "Key {$key} <br>";
-        $newValue = $arrayOfDatabase[$key];
-
-        $element[$key] = "Cambio de {$value} to {$newValue}";
-    }
-    return $element;
+    use RulesTrait;
 }
 
-$document = changeValueXMl($documentAsArray);
-$document = [
-    'adf' => $document
-];
-
-$result = ArrayToXml::convert($document, [
-    'rootElementName' => 'adf',
-    '_attributes' => [
-        'version' => '1.0',
-    ],
-], true, 'UTF-8');
-
-$notification = new AdfNotification($ownerCompanyUser);
-$notification->setMessage($result);
-$ownerCompanyUser->notify($notification);
-
-
+?>
 ```
 
+## In Database
+You must add new email templates called ADF, this template must use the volt syntax
+<br>Example
+```
+<firstname>{{entity.firstname}}</firstname>
+<lastname>{{entity.lastname}}</lastname>
+
+```
+## The entity ADF
+
+This entity is a collection with the data of lead, and actual messages or feed. When this rule is fire, the Message entity sent the Lead as first argument and the actual feed as second arguments, after the workflow take the data and create a new array 
+``` 
+[
+    'lead' => $arg[0]->toDocuments(),
+    'messages; =>  $arg[1]->toDocuments(),
+]
+```
+
+### Template Example
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<?adf version="1.0"?>
+<adf>
+    <prospect>
+        <requestdate>{{$entity['messages'].created_at}}</requestdate>
+        <vehicle>
+            <year>{{$entity['messages'].messages()['year']}}</year>
+            <make>{{$entity['messages'].messages()['make']}}</make>
+            <model>{{$entity['messages'].messages()['year']}}</model>
+        </vehicle>
+        <customer>
+            <contact>
+                <name part="first">{{$entity['lead'].firstname}}</name>
+                <name part="last">{{$entity['lead'].lastname}}</name>
+                <phone>{{$entity['lead'].phone}}</phone>
+                <email>{{$entity['lead'].email}}</email>
+            </contact>
+        </customer>
+        <vendor>
+            <contact>
+                <name part="full">{{$entity['lead'].companies.name}}</name>
+            </contact>
+        </vendor>
+    </prospect>
+</adf>
+```
 # Motivation
 
 Please make sure to explain the motivation for this proposal. 
