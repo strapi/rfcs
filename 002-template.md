@@ -131,7 +131,7 @@ Class ADF implements TransformerEngine
     public function __construct(Baka\Database\Model ...$args)
     {
         foreach($args as $arg) {
-            $systemModule = SystemModules::getByModelName(self::class);
+            $systemModule = SystemModules::getByModelName($arg::class);
             $this->data[$systemModule->slug] = $args->getData();
         }
     }
