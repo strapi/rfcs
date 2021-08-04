@@ -75,7 +75,7 @@ declare(strict_types = 1);
 
 Class Transformers
 {
-    public static function factory(c $type, \Baka\Database\Model ...$args)
+    public static function factory(TransformerType $type, ,LeadsInterfaces $leads, \Baka\Database\Model ...$args)
     {
         /**
          * doesn't necessary has to be a switch , we can get it from the DB better so we don't have to hard code
@@ -83,7 +83,7 @@ Class Transformers
          **/
         switch ($type) {
             case 'ADF':
-                    return new ADF($args);
+                    return new ADF($leads, $args);
                 break;
         }
 
@@ -128,10 +128,10 @@ Class ADF implements TransformerEngine
 {
     protected array $data;
 
-    public function __construct(Baka\Database\Model ...$args)
+    public function __construct(LeadsInterfaces $leads, Baka\Database\Model ...$args)
     {
         foreach($args as $arg) {
-            $systemModule = SystemModules::getByModelName($arg::class);
+            $systemModule = SystemModules::getByModelName(self::class);
             $this->data[$systemModule->slug] = $args->getData();
         }
     }
