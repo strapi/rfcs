@@ -3,82 +3,232 @@
 
 # Summary
 
-The ADF have a huge growing, the ADF is a communication way between Dealer CRM, the ADF can has any information, using xml tags. Once Company can has a template for share the lead information, for example Demo Dealer 1 can share information of the lead, but Dealer Demo 2 can share information about lead, vehicle and vendor.
+Auto-lead Data Format is an industry standard for sharing lead information between tools that help manufacturers and dealers sell more cars (http://adfxml.info/). Its provides a XML format to communicate between any CRM by sending the lead information in a standard XML format.
 
-Both company must has a template for share the information. This template can be storage in the json params of ADF rules. We can set a default Rule with the default template , but if the company need a custom template must be duplicate the default rule and modify the new rule and set the custom template in the params.
-
-For use ADF must use [Workflows](https://github.com/bakaphp/kanvas-packages/tree/0.3/src/WorkflowsRules)
-
-# Example
-
-## Add Rules to Entity
-
-```
-<?php 
-
-declare(strict_types = 1);
-use Kanvas\Packages\WorkflowsRules\Contracts\Traits\RulesTrait;
-
-class Users extends BaseModel 
-{
-    use RulesTrait;
-}
-
-?>
-```
-
-## In Database
-You must add new email templates called ADF, this template must use the volt syntax
-<br>Example
-```
-<firstname>{{entity.firstname}}</firstname>
-<lastname>{{entity.lastname}}</lastname>
-
-```
-## The entity ADF
-
-This entity is a collection with the data of lead, and actual messages or feed. When this rule is fire, the Message entity sent the Lead as first argument and the actual feed as second arguments, after the workflow take the data and create a new array 
-``` 
-[
-    'lead' => $arg[0]->toDocuments(),
-    'messages; =>  $arg[1]->toDocuments(),
-]
-```
-
-### Template Example
-```
-<?xml version="1.0" encoding="UTF-8"?>
-<?adf version="1.0"?>
+```xml
+<?ADF VERSION "1.0"?>
+<?XML VERSION “1.0”?>
 <adf>
     <prospect>
-        <requestdate>{{$entity['messages'].created_at}}</requestdate>
+        <requestdate>2000-03-30T15:30:20-08:00</requestdate>
         <vehicle>
-            <year>{{$entity['messages'].messages()['year']}}</year>
-            <make>{{$entity['messages'].messages()['make']}}</make>
-            <model>{{$entity['messages'].messages()['year']}}</model>
+            <year>1999</year>
+            <make>Chevrolet</make>
+            <model>Blazer</model>
         </vehicle>
         <customer>
             <contact>
-                <name part="first">{{$entity['lead'].firstname}}</name>
-                <name part="last">{{$entity['lead'].lastname}}</name>
-                <phone>{{$entity['lead'].phone}}</phone>
-                <email>{{$entity['lead'].email}}</email>
+                <name part="full">John Doe</name>
+                <phone>393-999-3922</phone>
             </contact>
         </customer>
         <vendor>
             <contact>
-                <name part="full">{{$entity['lead'].companies.name}}</name>
+                <name part="full">Acura of Bellevue</name>
             </contact>
         </vendor>
     </prospect>
 </adf>
+``` 
+
+Key Categories:
+- Lead (prospect) information
+- Vehicle information
+- Customer (buyer) information
+- Vendor (dealer) information
+- Service provider information
+
+We are proposing is proposing a way for our leads to interact with third party vendors, starting with ADF.
+
+If you don't know what a lead is by this point, please check what project you are working on :P
+
+Leads have a standard format of 
+- Id
+- Uuid
+- Name
+- Lastname
+- Email
+- Phone
+- Description
+- Status
+- Pipeline
+
+Each company can add any additional field to our lead structure via custom fields. Also we provide a table called leads_linked_sources focus on the relationship between our lead and any third party vendors.
+
+Having those two basics we can start with our proposal.
+
+For use ADF must use [Workflows](https://github.com/bakaphp/kanvas-packages/tree/0.3/src/WorkflowsRules)
+
+# Implementation 
+
+Understanding that ADF are specificity focus on the Automobile industry this implementation would only work on leads using the Action with vehicle products.
+
+## Transformer Service
+
+Understanding that our lead system will need to connect to a bunch of third party service, where ADF will just be a additional one, adding a new Trait to our leads class for each one would not be ideal so I'm proposing , is creating a Service where we can pass the lead and to what format we want it to be converted.
+
+```php
+
+namespace Gewaer\Services\Leads\Transformers;
+
+declare(strict_types = 1);
+
+Class Transformers
+{
+    public static function factory(c $type, \Baka\Database\Model ...$args)
+    {
+        /**
+         * doesn't necessary has to be a switch , we can get it from the DB better so we don't have to hard code
+         * each implementation
+         **/
+        switch ($type) {
+            case 'ADF':
+                    return new ADF($args);
+                break;
+        }
+
+    }
+}
+
+``` 
+
+Since each transformer will have its own logic we can on the transformer package add ADF logic
+
+```php
+
+namespace Gewaer\Services\Leads\Transformers;
+
+declare(strict_types = 1);
+
+interface TransformerEngine
+{
+    /**
+     * Function that will return the ADF format for specific lead
+     */
+    public function toFormat() : string;
+
+    /**
+     * Function that will return the array data attribute
+     */
+    public function getData(): array;
+
+}
+``` 
+
+```php
+
+namespace Gewaer\Services\Leads\Transformers\ADF;
+
+declare(strict_types = 1);
+
+use Canvas\Models\SystemModules;
+use Canvas\Template;
+
+Class ADF implements TransformerEngine
+{
+    protected array $data;
+
+    public function __construct(Baka\Database\Model ...$args)
+    {
+        foreach($args as $arg) {
+            $systemModule = SystemModules::getByModelName(self::class);
+            $this->data[$systemModule->slug] = $args->getData();
+        }
+    }
+
+    /**
+     * Function that will return the ADF format for specific lead
+     */
+    public function toFormat() : string
+    {
+        return Template::generate('ADF', $this->getData());
+    }
+}
 ```
+
+
+## Communicators 
+
+Understanding that transformation is just part of the process we need to also add a communication provider to send our leads to it final destination after its formatted correctly
+
+```php
+
+namespace Gewaer\Services\Leads\Communication;
+
+declare(strict_types = 1);
+
+interface CommunicationEngine
+{
+    /**
+     * Function that will send a transformed entity to the third party integration
+     */
+    public function send() : bool;
+}
+```
+
+```php
+
+namespace Gewaer\Services\Leads\ADF;
+
+Class ADF implements CommunicationEngine
+{
+    protected TransformerEngine $transformedLead;
+    protected Company $company;
+
+    public function __construct(TransformerEngine $transformedLead, Company $company)
+    {
+        $this->transformedLead = $transformedLead;
+        $this->company = $company;
+    }
+
+    /**
+     * Function that will return the ADF format for specific lead
+     */
+    public function send() : bool
+    {
+        $this->mail->to($company->getEmail())
+            ->content($this->transformedLead->toFormat(), 'text/plain')
+            ->send();
+
+        //save reference to leads_lead_source
+
+        return true;
+    }
+}
+
+```
+```php
+
+namespace Gewaer\Services\Leads\ADF;
+
+Class Zoho implements CommunicationEngine
+{
+    protected TransformerEngine $transformedLead;
+    protected Company $company;
+
+    public function __construct(TransformerEngine $transformedLead, Company $company)
+    {
+        $this->transformedLead = $transformedLead;
+        $this->company = $company;
+    }
+
+    /**
+     * Function that will return the ADF format for specific lead
+     */
+    public function send() : bool
+    {
+        $this->zoho->insert('lead', $this->transformedLead->toFormat());
+
+        //save reference to leads_lead_source
+
+        return true;
+    }
+}
+
+```
+
 # Motivation
-
-Please make sure to explain the motivation for this proposal. 
-It means explaining the use case(s) and the functional feature(s) this proposal is trying to solve. 
-
-Try to only talk about the intent not the proposed solution here.
+The main motive of this proposal , its to allow our leads to communicate with any third party provider starting with ADF
 
 # Detailed design
 
