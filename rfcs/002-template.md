@@ -59,7 +59,7 @@ Having those two basics we can start with our proposal.
 
 For use ADF must use [Workflows](https://github.com/bakaphp/kanvas-packages/tree/0.3/src/WorkflowsRules)
 
-# Implementation 
+# Detailed design
 
 Understanding that ADF are specificity focus on the Automobile industry this implementation would only work on leads using the Action with vehicle products.
 
@@ -230,12 +230,6 @@ Class Zoho implements CommunicationEngine
 # Motivation
 The main motive of this proposal , its to allow our leads to communicate with any third party provider starting with ADF
 
-# Detailed design
-
-Describe the proposal in details:
-
-- Explaining the design so that someone who knows Kanvas can understand and someone who works on it can implement the proposal. 
-- Think about edge-cases and include examples.
 
 # Tradeoffs
 
@@ -244,14 +238,3 @@ What potential tradeoffs are involved with this proposal.
 - Complexity
 - Work load of implementation
 - Can this be implemented outside of Kanvas's core packages
-- How does this proposal integrate with the current features being implemented
-- Cost of migrating existing Kanvas applications (is it a breaking change?)
-- Does implementing this proposal mean reworking teaching resources (videos, tutorials, documentations)?
-
-# Alternatives
-
-What are the alternatives?
-
-# Unresolved questions
-
-Optional, but suggested for first draft proposals. What parts of the design are still TBD(To be defined)?
