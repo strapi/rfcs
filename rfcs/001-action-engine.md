@@ -20,16 +20,35 @@ The main db structure of the system is the following [Database Diagram](https://
 - **Action companies systems modules** : Specify the list of entities from a specific action system tied to this action . Example: we would hold here the list of products, content, form referenced use in this action for the specific company in order to generate the action page.
 - **Engagement** : Result of the current lead interaction with a action page. Main thing to point out is the changes of the action stage and the reference to the message id which is the json object of the result interaction
 
-# Example
+# Structure
 
-If the proposal requires changes to the current API or the creation of new ones, add a basic code example.
+Since our action engine at the end of the day is based on 3 system, CRM, PIM and Actions but at this moment we dont want to have to manage 3 different API's lets follow the same DDD as we did in NZXT but update it based on a proper [DDD](https://stitcher.io/blog/laravel-beyond-crud-01-domain-oriented-laravel)
 
-# Motivation
-
-Please make sure to explain the motivation for this proposal. 
-It means explaining the use case(s) and the functional feature(s) this proposal is trying to solve. 
-
-Try to only talk about the intent not the proposed solution here.
+- API (aka apps)
+  - crm
+    - config
+    - controller
+    - public
+    - routes
+    - test
+  - pmi
+    - config
+    - controller
+    - public
+    - routes
+    - test
+  - action_engine?
+    - config
+    - controller
+    - public
+    - routes
+    - test
+- Domains
+  - Leads
+  - Products
+  - ActionsEngine
+- Libraries
+- Cli
 
 # Detailed design
 
@@ -37,6 +56,14 @@ Describe the proposal in details:
 
 - Explaining the design so that someone who knows Kanvas can understand and someone who works on it can implement the proposal. 
 - Think about edge-cases and include examples.
+- 
+# Motivation
+
+Please make sure to explain the motivation for this proposal. 
+It means explaining the use case(s) and the functional feature(s) this proposal is trying to solve. 
+
+Try to only talk about the intent not the proposed solution here.
+
 
 # Tradeoffs
 
