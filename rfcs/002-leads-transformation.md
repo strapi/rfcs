@@ -53,7 +53,8 @@ Leads have a standard format of
 - Status
 - Pipeline
 
-Each company can add any additional field to our lead structure via custom fields. Also we provide a table called leads_linked_sources focus on the relationship between our lead and any third party vendors.
+Each company can add any additional field to our lead structure via custom fields. Also we provide a table called leads_linked_sources focus on the relationship between our lead and any third party vendors.  
+* **Note** : change lead source to desination 
 
 Having those two basics we can start with our proposal.
 
