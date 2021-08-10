@@ -32,7 +32,7 @@ Since our action engine at the end of the day is based on 3 system, CRM, PIM and
     - public
     - routes
     - test
-  - pmi
+  - pim (Product information management)
     - config
     - controller
     - public
