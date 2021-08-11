@@ -5,12 +5,12 @@
 
 Backend Implementation for SalesAssist Action Engine .
 
-The focus of the action engine is the send a lead to a action page where they can execute one action and the result of this action is sent back to the system in order to execute a set of workflow to send this result to any # of third party, resulting in a historical feed of all the diff action this users has taken over time.
+The focus of the action engine is to send a lead to an action page where they trigger one action and the result of this is sent back to the system. This is turn executes a set of workflows that send the result to any # of third parties, resulting in a historical feed of all the different actions the user has made over time.
 
 The main db structure of the system is the following [Database Diagram](https://dbdiagram.io/d/60e7cf6b7e498c3bb3eecfee)
 
 **Entities**
-- **Action**: structure that holds all action from the system
+- **Action**: Structure that holds all actions of the system.
 - **Action Type**: what type of action is this? product, document, forms, commerce, etc , just a reference to the diff type of actions in the system
 - **Action Workflow**: what are the default workflows this action will execute upon its end. Why? if we want to make sure some action always run a specific workflow the system creators define
 - **Action Systems**: each action page is powered by a specific subsystem , we can expect product action to function in the same way as form actions. So here we specify what system powers this action . Some initial system will be (forms, commerce, content)
@@ -50,10 +50,11 @@ Since our action engine at the end of the day is based on 3 system, CRM, PIM and
   - ActionsEngine
 - Libraries
 - Cli
+- Storage
 
 # Detailed design
 
-At a App level , we need to provide the different API's for the frontend to connect the necessary information to generate action pages and endpoints to send the end results in order to generate engagement messages.
+At a App level , we need to provide different APIs for the frontend to connect the necessary information to generate action pages and endpoints to send the end results in order to generate engagement messages.
 
 - Public routes will be always guided by a UUID, please avoid any int 
 - Internal CRUD calls can be guided by UUID or Int 
