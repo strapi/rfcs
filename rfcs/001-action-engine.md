@@ -10,13 +10,13 @@ The focus of the action engine is to send a lead to an action page where they tr
 The main db structure of the system is the following [Database Diagram](https://dbdiagram.io/d/60e7cf6b7e498c3bb3eecfee)
 
 **Entities**
-- **Action**: Structure that holds all actions of the system.
-- **Action Type**: what type of action is this? product, document, forms, commerce, etc , just a reference to the diff type of actions in the system
-- **Action Workflow**: what are the default workflows this action will execute upon its end. Why? if we want to make sure some action always run a specific workflow the system creators define
-- **Action Systems**: each action page is powered by a specific subsystem , we can expect product action to function in the same way as form actions. So here we specify what system powers this action . Some initial system will be (forms, commerce, content)
-- **Action date type** :  specify the datatype this action will use. Example? product , content (as of now). cant this be used by the action system? to be discuss
-- **Action companies** : reference what action is this company use / has created
-- **Action companies recievers** :  each action from a company needs to generate its own receiver
+- **Action**: Holds all actions of the system.
+- **Action Type**: Types of action system will support product, document, forms, commerce, etc , 
+- **Action Workflow**: What are the default workflows system requires this action to execute once it ends.
+- **Action Systems**: Each action type will be powered by its own system domain , thus allowing use to encapsulate system complexity . Example: Forms, Commerce and Content will each have its own set of features 
+- **Action date type** : Specify the datatype this action will use. We define here the json structure the action expect the frontend to send , if the frontend structure doesn't match all the required fields in the data type, backend will throw a exception 
+- **Action companies** : Reference what action is this company use / has created
+- **Action companies receivers** : Each action has its own receiver uuid in order to know when the frontend send a message from each action taken on the action pages
 - **Action companies workflow** : Besides the default action workflow , specify custom workflow created by the user withing this company
 - **Action companies systems modules** : Specify the list of entities from a specific action system tied to this action . Example: we would hold here the list of products, content, form referenced use in this action for the specific company in order to generate the action page.
 - **Engagement** : Result of the current lead interaction with a action page. Main thing to point out is the changes of the action stage and the reference to the message id which is the json object of the result interaction
