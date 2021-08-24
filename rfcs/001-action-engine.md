@@ -5,18 +5,18 @@
 
 Backend Implementation for SalesAssist Action Engine .
 
-The focus of the action engine is to send a lead to an action page where they trigger one action and the result of this is sent back to the system. This is turn executes a set of workflows that send the result to any # of third parties, resulting in a historical feed of all the different actions the user has made over time.
+The purpose of the action engine is to generate an action page that collects information from leads and will trigger actions when this information is submitted back to our system, this will execute a set of workflows that send the result to any # of third parties, resulting in a historical feed of all the different actions the user has made over time.
 
 The main db structure of the system is the following [Database Diagram](https://dbdiagram.io/d/60e7cf6b7e498c3bb3eecfee)
 
 **Entities**
 - **Action**: Holds all actions of the system.
 - **Action Type**: Types of action system will support product, document, forms, commerce, etc , 
-- **Action Workflow**: What are the default workflows system requires this action to execute once it ends.
-- **Action Systems**: Each action type will be powered by its own system domain , thus allowing use to encapsulate system complexity . Example: Forms, Commerce and Content will each have its own set of features 
-- **Action date type** : Specify the datatype this action will use. We define here the json structure the action expect the frontend to send , if the frontend structure doesn't match all the required fields in the data type, backend will throw a exception 
-- **Action companies** : Reference what action is this company use / has created
-- **Action companies receivers** : Each action has its own receiver uuid in order to know when the frontend send a message from each action taken on the action pages
+- **Action Workflow**: List of the default workflows system requires this action to execute once it ends.
+- **Action Systems**: Each action type will be powered by its own system domain , in order to encapsulate system complexity . Example: Forms, Commerce and Content will each have its own set of features 
+- **Action data type** : Specify the datatype this action will use. We define here the json structure the action expect the frontend to send , if the frontend structure doesn't match all the required fields in the data type, backend will throw a exception 
+- **Action companies** : Reference what action is this company has
+- **Action companies receivers** : UUID identifier to match external request from the frontend to a specific Action. 
 - **Action companies workflow** : Besides the default action workflow , specify custom workflow created by the user withing this company
 - **Action companies systems modules** : Specify the list of entities from a specific action system tied to this action . Example: we would hold here the list of products, content, form referenced use in this action for the specific company in order to generate the action page.
 - **Engagement** : Result of the current lead interaction with a action page. Main thing to point out is the changes of the action stage and the reference to the message id which is the json object of the result interaction
@@ -79,3 +79,8 @@ What potential tradeoffs are involved with this proposal.
 
 - Big changes to our folder structure
 - Will need to update our Kubernetes app structure for the APi
+
+# FAQ
+
+- What is a lead receiver? 
+- 
