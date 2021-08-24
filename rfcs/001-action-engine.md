@@ -83,8 +83,24 @@ What potential tradeoffs are involved with this proposal.
 
 # FAQ
 
-- What is a lead receiver? 
+- What is a lead receiver? <br />
+  Automated API designed to receive and process the information that is used to create a lead in the system. 
+
+  The following information is required:
+  - Name
+  - Email
+  - Phone
+  - UserCompany the lead belongs to
+
+  Can receive the following information:
+  - Any additional field that belongs to the UserCompany's lead settings fields (eg: Credit Score, Interests, Type of Business, etc.)
+
+  Can receive leads from:
+  - HTML forms
+  - API's via Json
+  - Webhooks
   
+<br />
 
 # DB Structure
 
