@@ -20,6 +20,7 @@ The main db structure of the system is the following [Database Diagram](https://
 - **Action companies workflow** : Besides the default action workflow , specify custom workflow created by the user withing this company
 - **Action companies systems modules** : Specify the list of entities from a specific action system tied to this action . Example: we would hold here the list of products, content, form referenced use in this action for the specific company in order to generate the action page.
 - **Engagement** : Result of the current lead interaction with a action page. Main thing to point out is the changes of the action stage and the reference to the message id which is the json object of the result interaction
+- **Business Verticals** : List of industries the system will have default actions
 
 # Structure
 
@@ -83,4 +84,111 @@ What potential tradeoffs are involved with this proposal.
 # FAQ
 
 - What is a lead receiver? 
-- 
+  
+
+# DB Structure
+
+business_verticals
+
+| Syntax      | Description | Test Text     |
+| :---        |    :----:   |          ---: |
+| id      | integer       | 1   |
+| name   | Text        | automobile      |
+
+<br />
+action_data_types
+
+| Syntax      | Description | Test Text     |
+| :---        |    :----:   |          ---: |
+| id      | integer       | 1   |
+| uuid   | varchar        | 714d7361-9c3c-4223-8ccc-dabb5da47a36|
+| name   | Text        | dealerContent      |
+| definition   | Text        | {json structure of reciever}      |
+
+| Syntax      | Description | Test Text     |
+| :---        |    :----:   |          ---: |
+| id      | integer       | 2  |
+| uuid   | varchar        | 714d7361-9c3c-4223-8ccc-dabb5da47a36|
+| name   | Text        | Finance Product      |
+| definition   | Text        | {json structure of reciever}      |
+
+*json structure
+
+```
+{
+  "leads_uuid": "a9f04a86-9aa5-44da-8c52-2289bd1c7dce",
+  "message": {
+    "lang": "EN",
+    "headers": {"User-Agent":"Mozilla\/5.0 (Macintosh; Intel Mac OS X 11_2_3)"},
+    "status": "submitted",
+    "source": "web",
+    "hashtagVisited": "#hello",
+    "text": "hello",
+		"visitor_id": "62f3e6ee-39cf-4f26-837d-3515edd96b22"
+  },
+  "verb": "trade-walk"
+}
+```
+
+<br />
+action_types
+
+| Syntax      | Description | Test Text     |
+| :---        |    :----:   |          ---: |
+| id      | integer       | 1   |
+| name   | Text        | document      |
+
+
+<br />
+actions
+
+| Syntax      | Description | Test Text     |
+| :---        |    :----:   |          ---: |
+| id      | integer       | 1   |
+| uuid   | Text        | 614d7361-9c3c-4223-8ccc-dabb5da47a36||
+| apps_id   | integer        | 2||
+| actions_systems_id   | integer        | 1||
+| companies_id   | integer        | 0||
+| users_id   | integer        | 1||
+| pipelines_types_id   | integer        | 1||
+| name   | varchar        | Dealer Content||
+| parent_id   | integer        | 0||
+| description   | text        | This is a action fro dealer content||
+| business_Verticals_id   | text        | 1||
+
+
+<br />
+action_systems
+
+| Syntax      | Description | Test Text     |
+| :---        |    :----:   |          ---: |
+| id      | integer       | 1   |
+| actions_id   | integer        | 1      |
+| sub_system_id   | integer        | 1      |
+| actions_data_type_id   | integer        | 1      |
+| actions_type_id   | integer        | 1      |
+
+| Syntax      | Description | Test Text     |
+| :---        |    :----:   |          ---: |
+| id      | integer       | 2   |
+| actions_id   | integer        | 1      |
+| sub_system_id   | integer        | 1      |
+| actions_data_type_id   | integer        | 2      |
+| actions_type_id   | integer        | 1      |
+
+<br />
+actions_workflow
+
+| Syntax      | Description | Test Text     |
+| :---        |    :----:   |          ---: |
+| id      | integer       | 1   |
+| workflow_id   | integer        | 1  |
+
+<br />
+systems
+
+| Syntax      | Description | Test Text     |
+| :---        |    :----:   |          ---: |
+| id      | integer       | 1   |
+| uuid   | varchar        | 788d7361-9c3c-4223-8ccc-dabb5da47a36|
+| name   | Text        | Landing Page      |
