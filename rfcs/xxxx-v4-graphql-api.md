@@ -5,36 +5,11 @@
 
 Here is a first draft of what we would like the GraphQL API to look like in v4.
 
-# Example
-
-#### Fetching one entity
-
-**Request**
-
-```graphql
-{
-  document(id: 1, locale: "fr", publicationState: LIVE) {
-    data {
-      id
-      attributes {
-        title
-        locale
-      }
-      meta {
-        availableLocales
-      }
-    }
-  }
-}
-```
-
-# Motivation
+## Motivation
 
 The idea behind those changes is to make the GraphQL API simpler, more powerful and customizable.
 It'll also take advantage of the changes in the database layer (especially the new query engine).
 Finally, it'll make it easier to add features over time.
-
-# Detailed design
 
 ## Overview
 
@@ -56,9 +31,14 @@ Finally, it'll make it easier to add features over time.
       attributes {
         title
         locale
-      }
-      meta {
-        availableLocales
+        categories {
+          data {
+            id
+            attributes {
+                name
+            }
+          }
+        }
       }
     }
     meta {
@@ -85,9 +65,22 @@ Finally, it'll make it easier to add features over time.
       attributes {
         title
         locale
-      }
-      meta {
-        availableLocales
+        categories {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+          meta {
+            pagination {
+              page
+              pageSize
+              total
+              pageCount
+            }
+          }
+        }
       }
     }
   }
@@ -104,7 +97,7 @@ single value or array of value
 
 ```graphql
 {
-  documents(sort: "sort") {
+  documents(sort: "title") {
     data {
       id
     }
@@ -114,7 +107,7 @@ single value or array of value
 
 ```graphql
 {
-  documents(sort: "-title") {
+  documents(sort: "title:desc") {
     data {
       id
     }
@@ -124,7 +117,7 @@ single value or array of value
 
 ```graphql
 {
-  documents(sort: ["title", "-price"]) {
+  documents(sort: ["title:asc", "price:desc"]) {
     data {
       id
     }
@@ -150,7 +143,7 @@ single value or array of value
 
 ```graphql
 {
-  documents(pagination: { page: 0, pageSize: 10 }) {
+  documents(pagination: { page: 0, pageSize: 10 }) {
     data {
       id
     }
@@ -168,7 +161,7 @@ single value or array of value
 
 ```graphql
 {
-  documents(pagination: { start: 20, limit: 30 }) {
+  documents(pagination: { start: 20, limit: 30 }) {
     data {
       id
     }
@@ -184,13 +177,24 @@ single value or array of value
 
 ### Filtering
 
+**Context**
+
+Two challenges were encountered when writing the RFC for the GraphQL filters syntax.
+
+First, the symbols:
+With the V4, we introduce a new query engine with its own syntax. In this syntax, filters starts with a `$` sign.
+Unfortunately, GraphQL inputs don't allow keys to start with a symbol, thus preventing us to keep the `$` syntax here.
+
+Then, the union types:
+Since we want to allow custom scalar filters (`startsWith`, `contains`, `gt`, ...), we need to be able to pass objects with custom keys within. Ideally, we also wanted to be able to type `field: value` to create a shortcut to `field: { eq: value }`. Unfortunately (again), GraphQL don't allow input union type between scalars & object types. The decision was then to remove the shortcut, keeping only the filters object type for each scalar.
+
 **Parameter** `filters`
 
 **Examples**
 
 ```graphql
 {
-  documents(filters: { name: "test", $or: [{ price: { $gt: 10 }}, { title: { $startsWith: "Book" }}] }) {
+  documents(filters: { name: { eq: "test" }, or: [{ price: { gt: 10 }}, { title: { startsWith: "Book" }}] }) {
     data {
       id
     }
@@ -202,7 +206,6 @@ single value or array of value
 
 - `id`: entity id
 - `attributes`: entity attributes
-- `meta`: entity metadata (available locales)
 
 ### Creating
 
@@ -214,18 +217,9 @@ mutation createArticle {
       attributes {
         title
       }
-      meta {
-        availableLocales
-      }
     }
   }
 }
-```
-
-**Response**
-
-```json
-
 ```
 
 ### Updating
@@ -234,14 +228,11 @@ mutation createArticle {
 
 ```graphql
 mutation updateArticle {
-  updateArticle(params: { id: 1, locale: "fr" }, data: { title: "Hello", relation: 1 }) {
+  updateArticle(id: "1", data: { title: "Hello", relation: 1 }) {
     data {
       id
       attributes {
         title
-      }
-      meta {
-        availableLocales
       }
     }
   }
@@ -252,14 +243,11 @@ mutation updateArticle {
 
 ```graphql
 mutation deleteArticle {
-  deleteArticle(params: { id: 1, locale: "fr" }) {
+  deleteArticle(id: 1) {
     data {
       id
       attributes {
         title
-      }
-      meta {
-        availableLocales
       }
     }
   }
@@ -267,6 +255,10 @@ mutation deleteArticle {
 ```
 
 ## Aggregation and Grouping (Connections)
+
+> /!\ Warning: ETA: after v4.0.0
+>
+> The following specification is likely to change before its implementation after the release of Strapi V4.0.0
 
 > Note: We're thinking about replacing the `values` attribute by a `nodes` attributes in the Connection queries,
 > and we would like to have the opinion of our community members on this topic
@@ -280,7 +272,7 @@ query {
       open {
         key
       }
-    } 
+    }
   }
 }
 ```
@@ -309,7 +301,7 @@ query {
         nb_likes
       }
     }
-    
+
     values {
       categoriesConnection {
         aggregate {
