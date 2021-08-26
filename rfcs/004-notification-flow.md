@@ -14,7 +14,7 @@ This proposal tries to address those 3 questions and its implementation in the K
 **Entities:**
 - Users Notification Settings: Users settings per app of what notifications he want to receives and via what channels 
 - Notification Types : List of the current app amiable notification by system module 
-- Notification Frequency: Specify the frequency with what Users get their notification based on the weight specify by notifications types
+- Users Notification Entity Frequency: Specify the frequency with what Users get their notification based on the weight specify by notifications types
 
 Before the system can handle sending notification based on settings and frequency we have to provide Endpoints for the frontend to manage user settings
 
@@ -24,13 +24,25 @@ Before the system can handle sending notification based on settings and frequenc
 - `GET - /v1/users/{id}/notifications_frequency` : list all notification frequency for the current user
     ```
     {
+        id: 3,
         entity_id : 100 {user_id},
         system_modules_id: 1 //based on the system module we will know the entity_namespace
         frequency_id : 1 //frequency reference for whats configure on this app
     }
     ```
 
-- `GET - /v1/users/{id}/notifications_frequency/{entity_id}` : Get a specific notification frequency from one entity
+- `GET - /v1/users/{id}/notifications_frequency?q=(entity_id:{id},system_modules_id:{id})` : list the frequency for the curren entity id on the system module
+- `GET - /v1/users/{id}/notifications_frequency/{entity_id}/system_modules_id/{id}` : list the frequency for the curren entity id on the system module
+    ```
+    {
+        id: 3,
+        entity_id : 100 {user_id},
+        system_modules_id: 1 //based on the system module we will know the entity_namespace
+        frequency_id : 1 //frequency reference for whats configure on this app
+    }
+    ```
+
+- `POST - /v1/notifications_frequency` : Create notification frequency
     ```
     {
         entity_id : 100 {user_id},
@@ -39,7 +51,7 @@ Before the system can handle sending notification based on settings and frequenc
     }
     ```
 
-- `POST - /v1/notifications_frequency` : Update notification frequency
+- `PUT - /v1/notifications_frequency/{id}` : Update notification frequency
     ```
     {
         entity_id : 100 {user_id},
@@ -101,14 +113,13 @@ Before the system can handle sending notification based on settings and frequenc
     ```
 
 - `DELETE - /v1/users/{id}/notifications` : delete all notification settings for this user
-<br />
-
 ## User Endpoints
 
 - `GET - /v1/users/{id}` 
     ```
     {
-        'new_notification': 1 , the user object will now return the total # of unread notification
+        new_notification: 1 , //the user object will now return the total # of unread notification
+        system_modules_id: 2 , //add the system module reference to this object so it easy for the frontend to handle frequency
     }
     ```
 
@@ -129,6 +140,7 @@ class UsersNotificationSettingsController extends BaseController
         $this->model = new NotificationsSettings();
 
         $this->model->users_id = $this->userData->getId();
+        $this->model->apps_id = $this->app->getId();
         $this->additionalSearchFields = [
             ['apps_id', ':', $this->apps->getId()],
             ['users_id', ':', $this->userData->getId()],
@@ -142,15 +154,37 @@ class UsersNotificationSettingsController extends BaseController
 
 ```
 
+### UserNotificationFrequencyController
 
-To allow entity controllers to use Notification frequency , we have to use the NotificationFrequency Trait , by reading the `$this->model` instance type , it will know what system module to use and provide the rest of the necessary endpoints 
-```
-trait NotificationFrequency
+```php
+/**
+ * Handle users notification Settings
+ **/
+class UsersNotificationEntityFrequencyController extends BaseController
 {
+    public function __construct()
+    {
+        $this->model = new UserNotificationEntityFrequency();
 
+        $this->model->users_id = $this->userData->getId();
+        $this->model->apps_id = $this->app->getId();
+        $this->additionalSearchFields = [
+            ['apps_id', ':', $this->apps->getId()],
+            ['users_id', ':', $this->userData->getId()],
+            ['is_deleted', ':', 0],
+        ];
+    }
+
+    public function index();
+
+    /**
+     * Verify that the user info belongs to the current logged in user
+     */
+    public function getById();
+    public function getByEntity(string $entityId, int $systemModulesId);
 }
-```
 
+```
 
 # Motivation
 
@@ -160,13 +194,8 @@ Kanvas Core already provides with notification management but we have to expand 
 
 What potential tradeoffs are involved with this proposal.
 
-- Complexity
-- Work load of implementation
-- Can this be implemented outside of Kanvas's core packages
-- How does this proposal integrate with the current features being implemented
-- Cost of migrating existing Kanvas applications (is it a breaking change?)
-- Does implementing this proposal mean reworking teaching resources (videos, tutorials, documentations)?
-
+- Adding parent_id to notification will add a new layer of complexity
+- Should it live on the core or as a package?
 # Alternatives
 
 None we will have this issue on all our future apps
