@@ -9,56 +9,152 @@ This proposal tries to address those 3 questions and its implementation in the K
 
 # Detailed design 
 
-<iframe width="560" height="315" src='https://dbdiagram.io/embed/612720576dc2bb6073bbee53'> </iframe>
+[Database Diagram](https://dbdiagram.io/embed/612720576dc2bb6073bbee53)
 
-Description of the proposed feature or proposed changes.
+**Entities:**
+- Users Notification Settings: Users settings per app of what notifications he want to receives and via what channels 
+- Notification Types : List of the current app amiable notification by system module 
+- Notification Frequency: Specify the frequency with what Users get their notification based on the weight specify by notifications types
 
-If no notification settings configure -> send all
-If one notification settings configured -> only set the ones enabled
-They an enable or disable a notification type and send a json channels {'email', 'push'} , so we can confirm on the process() function what to send out
+Before the system can handle sending notification based on settings and frequency we have to provide Endpoints for the frontend to manage user settings
 
-notification_frequency => 1, 2, 3 (all update | only relevant | never)
+# API
+## Notification Frequency Endpoints
 
-how will we handle frequency?
-We will save the frequency on the user_config table and look it up by key
-
-If the user doesn't have a frequency configure -> its 100%
-
-how will the api handle updates to settings ?
-PUT - /v1/users/{id}/notifications/{apps_id} ? sending a json
-```
-{
-    notifications_type_id : x
-    is_enabled : 1
-    channel : {
-        'json',
-        'email'
+- `GET - /v1/users/{id}/notifications_frequency` : list all notification frequency for the current user
+    ```
+    {
+        entity_id : 100 {user_id},
+        system_modules_id: 1 //based on the system module we will know the entity_namespace
+        frequency_id : 1 //frequency reference for whats configure on this app
     }
+    ```
+
+- `GET - /v1/users/{id}/notifications_frequency/{entity_id}` : Get a specific notification frequency from one entity
+    ```
+    {
+        entity_id : 100 {user_id},
+        system_modules_id: 1 //based on the system module we will know the entity_namespace
+        frequency_id : 1 //frequency reference for whats configure on this app
+    }
+    ```
+
+- `POST - /v1/notifications_frequency` : Update notification frequency
+    ```
+    {
+        entity_id : 100 {user_id},
+        system_modules_id: 1 //based on the system module we will know the entity_namespace
+        frequency_id : 1 //frequency reference for whats configure on this app
+    }
+    ```
+
+## Notification Endpoints
+
+- `GET - /v1/users/{id}/notifications` : List of the user notification settings (all notification available for the app)
+    ```
+    {
+        name : 'Notification name',
+        notifications_type_id : x
+        is_enabled : 1,
+        parent_id : 0, //list only the notifications that are main 
+        channel : {
+            'json',
+            'email'
+        }
+    }
+    ```
+
+- `GET - /v1/users/{id}/notifications/{id}` : Get one notification and it children
+    ```
+    {
+        notifications_type_id : x
+        is_enabled : 1
+        channel : {
+            'json',
+            'email'
+        },
+        related : [
+            {
+                name : 'Notification name',
+                notifications_type_id : x
+                notification_key : Canvas\Notifications\Signup
+                is_enabled : 1
+                channel : {
+                    'json',
+                    'email'
+                }
+            }
+        ]
+    }
+    ```
+
+- `PUT - /v1/users/{id}/notifications/{id}` : Get one notification
+    ```
+    {
+        notifications_type_id : x
+        is_enabled : 1
+        channel : {
+            'json',
+            'email'
+        }
+    }
+    ```
+
+- `DELETE - /v1/users/{id}/notifications` : delete all notification settings for this user
+<br />
+
+## User Endpoints
+
+- `GET - /v1/users/{id}` 
+    ```
+    {
+        'new_notification': 1 , the user object will now return the total # of unread notification
+    }
+    ```
+
+# Examples 
+
+In order to use this update we will have to provide 2 new Controllers on Kanvas Core and a Trait to use NotificationFrequency on any entity within the developers App.
+
+### UserNotificationSettingsController
+
+```php
+/**
+ * Handle users notification Settings
+ **/
+class UsersNotificationSettingsController extends BaseController
+{
+    public function __construct()
+    {
+        $this->model = new NotificationsSettings();
+
+        $this->model->users_id = $this->userData->getId();
+        $this->additionalSearchFields = [
+            ['apps_id', ':', $this->apps->getId()],
+            ['users_id', ':', $this->userData->getId()],
+            ['is_deleted', ':', 0],
+        ];
+    }
+
+    public function index();
+    public function getById();
+}
+
+```
+
+
+To allow entity controllers to use Notification frequency , we have to use the NotificationFrequency Trait , by reading the `$this->model` instance type , it will know what system module to use and provide the rest of the necessary endpoints 
+```
+trait NotificationFrequency
+{
+
 }
 ```
 
-if the user doesn't have any notification settings configure , send all
-
-how will the backend handle the notification_count per app?
-on user config , set notification_count_{appId} and set the # of notifications unread
-
-# Example
-
-If the proposal requires changes to the current API or the creation of new ones, add a basic code example.
 
 # Motivation
 
-Please make sure to explain the motivation for this proposal. 
-It means explaining the use case(s) and the functional feature(s) this proposal is trying to solve. 
-
-Try to only talk about the intent not the proposed solution here.
-
-# Detailed design
-
-Describe the proposal in details:
-
-- Explaining the design so that someone who knows Kanvas can understand and someone who works on it can implement the proposal. 
-- Think about edge-cases and include examples.
+Kanvas Core already provides with notification management but we have to expand it and allow users to controller what type of notification they receives, so we need to expand the system by adding this model
 
 # Tradeoffs
 
@@ -73,8 +169,7 @@ What potential tradeoffs are involved with this proposal.
 
 # Alternatives
 
-What are the alternatives?
-
+None we will have this issue on all our future apps
 # Unresolved questions
 
-Optional, but suggested for first draft proposals. What parts of the design are still TBD(To be defined)?
+Should this be in the core or as a package?
