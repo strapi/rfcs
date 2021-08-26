@@ -9,6 +9,8 @@ This proposal tries to address those 3 questions and its implementation in the K
 
 # Detailed design 
 
+<iframe width="560" height="315" src='https://dbdiagram.io/embed/612720576dc2bb6073bbee53'> </iframe>
+
 Description of the proposed feature or proposed changes.
 
 If no notification settings configure -> send all
