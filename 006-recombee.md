@@ -12,19 +12,6 @@ We will provide a layer allowing you to
 - Generate Recommendations Items for Users
 - Generate Recommendations Items for Items
 - Generate Recommendations Users for Users
-
-
-Cuando se inicializa recommendbe se debe poder enviar la db que se va a utilizar
-  - las base de dato de recommendb nos alamacena el tipo de entidad k keremos manejar, memo, books, etc
-
-- poder pedir recomendaciones de items for user
-- poder pedir recomendaciones de items for items
-- poder pedir recomendaciones de users for users
-
-debe ser nuestro punto inicial
-
-Que sea facil de ingestar cualquier entidad kanvas model, lo suba a recommedb , puedas llamar esos puntos de recomendaciones para usuario y de entidad, de usuario a usaurio debe ser especificio para un modelo de usuario
-
 # Example
 
 If the proposal requires changes to the current API or the creation of new ones, add a basic code example.
@@ -60,6 +47,7 @@ class Memos extends RecommendationIndex
 ```
 
 ```php
+//manage db
 $recommendationIndex = new Gewaer\Recommendations\Memos();
 $recommendationIndex->createDatabases();
 $recommendationIndex->deleteDatabase();
@@ -78,6 +66,8 @@ $recommendationIndex->getRecommendationForUser($user, float $rotation); //list o
 
 $recommendationIndex->refresh($user) //refresh the user recommendation
 
+//manage interaction
+
 $recommendationInteraction = new Recommendation\Interaction($recommendationIndex, $this->userData);
 $recommendationInteraction->like($memo);
 $recommendationInteraction->view($memo);
@@ -86,6 +76,11 @@ $recommendationInteraction->purchase($memo);
 $recommendationInteraction->addToCart($memo);
 $recommendationInteraction->addToList($memo); //same as bookmark
 $recommendationInteraction->bookmark($memo);
+
+//Or
+$recommendationIndex = new Gewaer\Recommendations\Memos();
+$recommendationIndex->interactions($user)->like($memo);
+$recommendationIndex->interactions($user)->view($memo);
 ```
 
 # Motivation
