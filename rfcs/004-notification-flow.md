@@ -201,7 +201,8 @@ What potential tradeoffs are involved with this proposal?
 - Should it live on the core or as a package?
 # Alternatives
 
-None we will have this issue on all our future apps
+This will no longer be an issue in existing or future apps.
+
 # Unresolved questions
 
 Should this be in the core or as a package?
