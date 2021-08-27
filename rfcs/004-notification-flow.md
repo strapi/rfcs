@@ -32,8 +32,9 @@ Before the system can handle sending notifications based on settings and frequen
     }
     ```
 
-- `GET - /v1/users/{id}/notifications_frequency?q=(entity_id:{id},system_modules_id:{id})` : list the frequency for the curren entity id on the system module
-- `GET - /v1/users/{id}/notifications_frequency/{entity_id}/system_modules_id/{id}` : list the frequency for the curren entity id on the system module
+**List the frequency for the current entity id in the system module.**
+- `GET - /v1/users/{id}/notifications_frequency?q=(entity_id:{id},system_modules_id:{id})`
+- `GET - /v1/users/{id}/notifications_frequency/{entity_id}/system_modules_id/{id}`
     ```
     {
         id: 3,
