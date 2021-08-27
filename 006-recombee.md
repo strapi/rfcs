@@ -49,8 +49,8 @@ class Memos extends RecommendationIndex
 ```php
 //manage db
 $recommendationIndex = new Gewaer\Recommendations\Memos();
-$recommendationIndex->createDatabases();
-$recommendationIndex->deleteDatabase();
+$recommendationIndex->create();
+$recommendationIndex->delete();
 
 $memo = Memos::findFirst();
 $recommendationIndex->index($memo);
@@ -213,6 +213,11 @@ class Database implements Database
 
     public function interactions() : Interactions;
     public function items() : Items;
+    public function users() : Items;
+    public function getRecommendationForEntity($memo, float $rotation);
+    public function getRecommendationForUser($memo, float $rotation);
+    public function refresh($memo);
+
     
 }
 ```
@@ -236,6 +241,18 @@ class Items implements Items
     public function addMultiple(); //or batch index?
     public function delete(); //or batch index?
     public function list(); //or batch index?
+}
+```
+
+```php
+
+namespace Kanvas\Packages\Recommendation\Drivers;
+
+use Recombee\RecommApi\Client;
+
+class Users extends Items
+{
+
 }
 ```
 
