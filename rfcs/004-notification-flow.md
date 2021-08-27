@@ -12,11 +12,11 @@ This proposal tries to address those 3 questions and its implementation in the K
 [Database Diagram](https://dbdiagram.io/embed/612720576dc2bb6073bbee53)
 
 **Entities:**
-- Users Notification Settings: Users settings per app of what notifications he want to receives and via what channels 
-- Notification Types : List of the current app amiable notification by system module 
-- Users Notification Entity Frequency: Specify the frequency with what Users get their notification based on the weight specify by notifications types
+- **Users Notifications Settings:** Users settings per app of which notifications they want to receive and via which channels.
+- **Notifications Types:** List of the current app amiable notification by system module.
+- **Users Notifications Entity Frequency:** Specify the frequency at which Users get their notifications based on the weight specified by notifications types.
 
-Before the system can handle sending notification based on settings and frequency we have to provide Endpoints for the frontend to manage user settings
+Before the system can handle sending notifications based on settings and frequencies, we have to provide endpoints for allowing uses to manage their settings.
 
 # API
 ## Notification Frequency Endpoints
