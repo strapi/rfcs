@@ -3,7 +3,7 @@
 
 # Summary
 
-At this moment any kanvas app can send notification can handle different type of notifications and send them via multiple channels, but , users cant configure what type of notification they want to receive , via what channels and with what frequency.
+Kanvas Apps can send notifications, can handle different types of notifications, and can send them via multiple channels. The downside is that users cannot configure which type of notification they want to receive, via which channels, and with what frequency.
 
 This proposal tries to address those 3 questions and its implementation in the Kanvas Core.
 
