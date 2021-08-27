@@ -114,7 +114,8 @@ Before the system can handle sending notifications based on settings and frequen
     }
     ```
 
-- `DELETE - /v1/users/{id}/notifications` : delete all notification settings for this user
+**Delete all notification settings for a user.**
+- `DELETE - /v1/users/{id}/notifications`
 ## User Endpoints
 
 - `GET - /v1/users/{id}` 
