@@ -205,4 +205,4 @@ This will no longer be an issue in existing or future apps.
 
 # Unresolved questions
 
-Should this be in the core or as a package?
+Should this be part of the core or live as its own package?
