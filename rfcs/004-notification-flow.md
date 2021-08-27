@@ -195,9 +195,9 @@ Kanvas Core already provides notifications management, but we have to expand it 
 
 # Tradeoffs
 
-What potential tradeoffs are involved with this proposal.
+What potential tradeoffs are involved with this proposal?
 
-- Adding parent_id to notification will add a new layer of complexity
+- Adding `parent_id` to notifications will add a new layer of complexity.
 - Should it live on the core or as a package?
 # Alternatives
 
