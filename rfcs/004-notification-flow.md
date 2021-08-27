@@ -21,7 +21,8 @@ Before the system can handle sending notifications based on settings and frequen
 # API
 ## Notification Frequency Endpoints
 
-- `GET - /v1/users/{id}/notifications_frequency` : list all notification frequency for the current user
+**List all notifications frequency for the current user.**
+- `GET - /v1/users/{id}/notifications_frequency`
     ```
     {
         id: 3,
