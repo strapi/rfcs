@@ -89,25 +89,182 @@ Simplify the management of recommendation with recombee with kanvas
 
 # Detailed design
 
-Describe the proposal in details:
+Create a new package called Recommendation 
+  - Contracts
+    - Database : definitions of how a database recommendation works  (memos)
+    - Items : definitions how items works within a database
+    - Users : definitions users behavior
+    - Interactions : define the method that interact with a database  (like, view, purchase)
+    - Engine : define the logic to connect to the recommendation provider
+  - Drivers
+    - Recombee.php
+  - Database.php
+  - Items.php
+  - Interactions.php
 
-- Explaining the design so that someone who knows Kanvas can understand and someone who works on it can implement the proposal. 
-- Think about edge-cases and include examples.
+## Contracts
+```php
+
+namespace Kanvas\Packages\Recommendation\Contracts;
+
+class Database
+{
+    public function create();
+    public function delete();
+    public function getSource();
+}
+```
+
+```php
+
+namespace Kanvas\Packages\Recommendation\Contracts;
+
+class Items
+{
+    public function add();
+    public function addMultiple(); //or batch index?
+    public function delete(); //or batch index?
+    public function list(); //or batch index?
+}
+```
+
+```php
+
+namespace Kanvas\Packages\Recommendation\Contracts;
+
+class Interactions
+{
+    public function like(ModelInterface $model);
+    public function view(ModelInterface $model);
+    public function purchase(ModelInterface $model);
+    public function bookmark(ModelInterface $model);
+}
+```
+
+```php
+
+namespace Kanvas\Packages\Recommendation\Contracts;
+
+class Users
+{
+    public function add(UsersInterface $model);
+    public function delete(UsersInterface $model);
+}
+```
+
+```php
+
+namespace Kanvas\Packages\Recommendation\Contracts;
+
+class Engine
+{
+    public static function connect(Database $database);
+}
+```
+## Drivers
+
+```php
+
+namespace Kanvas\Packages\Recommendation\Drivers;
+
+use Recombee\RecommApi\Client;
+
+class Recommendation implements Engine
+{
+    private static array $instances = [];
+    
+    public static function connect(Database $database)
+    {
+        $source = $database->getSource();
+        if (!isset(self::$instances[$source])) {
+            self::$instances[$source] = new Client($source, '--db-private-token--');
+        }
+
+        return self::$instances[$source];
+    }
+}
+```
+
+## Source
+
+```php
+
+namespace Kanvas\Packages\Recommendation\Drivers;
+
+
+class Database implements Database
+{
+    protected Engine $client;
+
+    public final function __constructs(Di $container)
+    {
+        $engine = $container->get('recommendation');
+
+        if(!$engine instanceOf Engine) {
+            throw new Exception('Not a recommendation driver');
+        }
+
+        $this->client = $container->get('recommendation')->connect($this->getSource());    
+    }
+
+    public function getClient() : Engine;
+    public function create() : self;
+    public function delete() : bool;
+
+    public function interactions() : Interactions;
+    public function items() : Items;
+    
+}
+```
+
+```php
+
+namespace Kanvas\Packages\Recommendation\Drivers;
+
+use Recombee\RecommApi\Client;
+
+class Items implements Items
+{
+    protected Database $database
+    ;
+    public function __construct(Database $database)
+    {
+        $this->database = $database;
+    }
+
+    public function add();
+    public function addMultiple(); //or batch index?
+    public function delete(); //or batch index?
+    public function list(); //or batch index?
+}
+```
+
+```php
+
+namespace Kanvas\Packages\Recommendation\Drivers;
+
+use Recombee\RecommApi\Client;
+
+class Interactions implements Interactions
+{
+    protected Database $database
+    ;
+    public function __construct(Database $database)
+    {
+        $this->database = $database;
+    }
+
+    public function like(ModelInterface $model);
+    public function view(ModelInterface $model);
+    public function purchase(ModelInterface $model);
+    public function bookmark(ModelInterface $model);
+}
+```
 
 # Tradeoffs
 
-What potential tradeoffs are involved with this proposal.
-
-- Complexity
-- Work load of implementation
-- Can this be implemented outside of Kanvas's core packages
-- How does this proposal integrate with the current features being implemented
-- Cost of migrating existing Kanvas applications (is it a breaking change?)
-- Does implementing this proposal mean reworking teaching resources (videos, tutorials, documentations)?
-
-# Alternatives
-
-What are the alternatives?
+- Limit ourself to only one recommendation provider. In the future we should expand to more services
+- Cache managements is critical , since all recommendation service have some limit on # of get calls
 
 # Unresolved questions
 
