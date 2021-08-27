@@ -190,7 +190,7 @@ class UsersNotificationEntityFrequencyController extends BaseController
 
 # Motivation
 
-Kanvas Core already provides with notification management but we have to expand it and allow users to controller what type of notification they receives, so we need to expand the system by adding this model
+Kanvas Core already provides notifications management, but we have to expand it and allow users to control which types of notifications they want to receive. We need to expand the system by adding this model.
 
 # Tradeoffs
 
