@@ -285,4 +285,4 @@ class Interactions implements Interactions
 
 # Unresolved questions
 
-Optional, but suggested for first draft proposals. What parts of the design are still TBD(To be defined)?
+None so far, any help?
