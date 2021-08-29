@@ -3,7 +3,7 @@
 
 # Summary
 
-At this moment any kanvas app can send notification can handle different type of notifications and send them via multiple channels, but , users cant configure what type of notification they want to receive , via what channels and with what frequency.
+At this moment any kanvas app can send notification can handle different type of notifications and send them via multiple channels, but , users cant configure what type of notification they want to receive , via what channels and with what relevancy.
 
 This proposal tries to address those 3 questions and its implementation in the Kanvas Core.
 
@@ -14,49 +14,49 @@ This proposal tries to address those 3 questions and its implementation in the K
 **Entities:**
 - Users Notification Settings: Users settings per app of what notifications he want to receives and via what channels 
 - Notification Types : List of the current app amiable notification by system module 
-- Users Notification Entity Frequency: Specify the frequency with what Users get their notification based on the weight specify by notifications types
+- Users Notification Entity Relevancy: Specify the relevancy with what Users get their notification based on the weight specify by notifications types
 
-Before the system can handle sending notification based on settings and frequency we have to provide Endpoints for the frontend to manage user settings
+Before the system can handle sending notification based on settings and relevancy we have to provide Endpoints for the frontend to manage user settings
 
 # API
-## Notification Frequency Endpoints
+## Notification Relevancy Endpoints
 
-- `GET - /v1/users/{id}/notifications_frequency` : list all notification frequency for the current user
+- `GET - /v1/users/{id}/notifications_relevancy` : list all notification relevancy for the current user
     ```
     {
         id: 3,
         entity_id : 100 {user_id},
         system_modules_id: 1 //based on the system module we will know the entity_namespace
-        frequency_id : 1 //frequency reference for whats configure on this app
+        relevancy_id : 1 //relevancy reference for whats configure on this app
     }
     ```
 
-- `GET - /v1/users/{id}/notifications_frequency?q=(entity_id:{id},system_modules_id:{id})` : list the frequency for the curren entity id on the system module
-- `GET - /v1/users/{id}/notifications_frequency/{entity_id}/system_modules_id/{id}` : list the frequency for the curren entity id on the system module
+- `GET - /v1/users/{id}/notifications_relevancy?q=(entity_id:{id},system_modules_id:{id})` : list the relevancy for the curren entity id on the system module
+- `GET - /v1/users/{id}/notifications_relevancy/{entity_id}/system_modules_id/{id}` : list the relevancy for the curren entity id on the system module
     ```
     {
         id: 3,
         entity_id : 100 {user_id},
         system_modules_id: 1 //based on the system module we will know the entity_namespace
-        frequency_id : 1 //frequency reference for whats configure on this app
+        relevancy_id : 1 //relevancy reference for whats configure on this app
     }
     ```
 
-- `POST - /v1/notifications_frequency` : Create notification frequency
+- `POST - /v1/notifications_relevancy` : Create notification relevancy
     ```
     {
         entity_id : 100 {user_id},
         system_modules_id: 1 //based on the system module we will know the entity_namespace
-        frequency_id : 1 //frequency reference for whats configure on this app
+        relevancy_id : 1 //relevancy reference for whats configure on this app
     }
     ```
 
-- `PUT - /v1/notifications_frequency/{id}` : Update notification frequency
+- `PUT - /v1/notifications_relevancy/{id}` : Update notification relevancy
     ```
     {
         entity_id : 100 {user_id},
         system_modules_id: 1 //based on the system module we will know the entity_namespace
-        frequency_id : 1 //frequency reference for whats configure on this app
+        relevancy_id : 1 //relevancy reference for whats configure on this app
     }
     ```
 
@@ -119,13 +119,13 @@ Before the system can handle sending notification based on settings and frequenc
     ```
     {
         new_notification: 1 , //the user object will now return the total # of unread notification
-        system_modules_id: 2 , //add the system module reference to this object so it easy for the frontend to handle frequency
+        system_modules_id: 2 , //add the system module reference to this object so it easy for the frontend to handle relevancy
     }
     ```
 
 # Examples 
 
-In order to use this update we will have to provide 2 new Controllers on Kanvas Core and a Trait to use NotificationFrequency on any entity within the developers App.
+In order to use this update we will have to provide 2 new Controllers on Kanvas Core and a Trait to use Notificationrelevancy on any entity within the developers App.
 
 ### UserNotificationSettingsController
 
@@ -154,17 +154,17 @@ class UsersNotificationSettingsController extends BaseController
 
 ```
 
-### UserNotificationFrequencyController
+### UserNotificationrelevancyController
 
 ```php
 /**
  * Handle users notification Settings
  **/
-class UsersNotificationEntityFrequencyController extends BaseController
+class UsersNotificationEntityrelevancyController extends BaseController
 {
     public function __construct()
     {
-        $this->model = new UserNotificationEntityFrequency();
+        $this->model = new UserNotificationEntityrelevancy();
 
         $this->model->users_id = $this->userData->getId();
         $this->model->apps_id = $this->app->getId();
