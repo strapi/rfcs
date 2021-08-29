@@ -1,27 +1,28 @@
-- Start Date: 8/25/2021
+- Start Date: 2021-08-21
 - RFC PR: (leave this empty)
 
 # Summary
 
-At this moment any kanvas app can send notification can handle different type of notifications and send them via multiple channels, but , users cant configure what type of notification they want to receive , via what channels and with what relevancy.
+Kanvas Apps can send notifications, can handle different types of notifications, and can send them via multiple channels. The downside is that users cannot configure which type of notification they want to receive, via which channels, and with what relevancy.
 
-This proposal tries to address those 3 questions and its implementation in the Kanvas Core.
+This proposal tries to address these 3 concerns and their implementation into the Kanvas Core.
 
 # Detailed design 
 
 [Database Diagram](https://dbdiagram.io/embed/612720576dc2bb6073bbee53)
 
 **Entities:**
-- Users Notification Settings: Users settings per app of what notifications he want to receives and via what channels 
-- Notification Types : List of the current app amiable notification by system module 
-- Users Notification Entity Relevancy: Specify the relevancy with what Users get their notification based on the weight specify by notifications types
+- **Users Notifications Settings:** Users settings per app of which notifications they want to receive and via which channels.
+- **Notifications Types:** List of the current app amiable notification by system module.
+- **Users Notifications Entity relevancy:** Specify the relevancy at which Users get their notifications based on the weight specified by notifications types.
 
-Before the system can handle sending notification based on settings and relevancy we have to provide Endpoints for the frontend to manage user settings
+Before the system can handle sending notifications based on settings and frequencies, we have to provide endpoints for allowing uses to manage their settings.
 
 # API
 ## Notification Relevancy Endpoints
 
-- `GET - /v1/users/{id}/notifications_relevancy` : list all notification relevancy for the current user
+**List all notifications relevancy for the current user.**
+- `GET - /v1/users/{id}/notifications_relevancy`
     ```
     {
         id: 3,
@@ -31,8 +32,9 @@ Before the system can handle sending notification based on settings and relevanc
     }
     ```
 
-- `GET - /v1/users/{id}/notifications_relevancy?q=(entity_id:{id},system_modules_id:{id})` : list the relevancy for the curren entity id on the system module
-- `GET - /v1/users/{id}/notifications_relevancy/{entity_id}/system_modules_id/{id}` : list the relevancy for the curren entity id on the system module
+**List the relevancy for the current entity id in the system module.**
+- `GET - /v1/users/{id}/notifications_relevancy?q=(entity_id:{id},system_modules_id:{id})`
+- `GET - /v1/users/{id}/notifications_relevancy/{entity_id}/system_modules_id/{id}`
     ```
     {
         id: 3,
@@ -112,7 +114,8 @@ Before the system can handle sending notification based on settings and relevanc
     }
     ```
 
-- `DELETE - /v1/users/{id}/notifications` : delete all notification settings for this user
+**Delete all notification settings for a user.**
+- `DELETE - /v1/users/{id}/notifications`
 ## User Endpoints
 
 - `GET - /v1/users/{id}` 
@@ -125,7 +128,7 @@ Before the system can handle sending notification based on settings and relevanc
 
 # Examples 
 
-In order to use this update we will have to provide 2 new Controllers on Kanvas Core and a Trait to use Notificationrelevancy on any entity within the developers App.
+In order to use this update we will have to provide 2 new Controllers on Kanvas Core and a Trait to use Notification relevancy on any entity within the developers App.
 
 ### UserNotificationSettingsController
 
@@ -160,7 +163,7 @@ class UsersNotificationSettingsController extends BaseController
 /**
  * Handle users notification Settings
  **/
-class UsersNotificationEntityrelevancyController extends BaseController
+class UsersNotificationEntityRelevancyController extends BaseController
 {
     public function __construct()
     {
@@ -188,17 +191,18 @@ class UsersNotificationEntityrelevancyController extends BaseController
 
 # Motivation
 
-Kanvas Core already provides with notification management but we have to expand it and allow users to controller what type of notification they receives, so we need to expand the system by adding this model
+Kanvas Core already provides notifications management, but we have to expand it and allow users to control which types of notifications they want to receive. We need to expand the system by adding this model.
 
 # Tradeoffs
 
-What potential tradeoffs are involved with this proposal.
+What potential tradeoffs are involved with this proposal?
 
-- Adding parent_id to notification will add a new layer of complexity
+- Adding `parent_id` to notifications will add a new layer of complexity.
 - Should it live on the core or as a package?
 # Alternatives
 
-None we will have this issue on all our future apps
+This will no longer be an issue in existing or future apps.
+
 # Unresolved questions
 
-Should this be in the core or as a package?
+Should this be part of the core or live as its own package?
