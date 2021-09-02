@@ -3,7 +3,7 @@
 
 # Summary
 
-Kanvas Apps can send notifications, can handle different types of notifications, and can send them via multiple channels. The downside is that users cannot configure which type of notification they want to receive, via which channels, and with what relevancy.
+Kanvas Apps can send notifications, can handle different types of notifications, and can send them via multiple channels. The downside is that users cannot configure which type of notification they want to receive, via which channels, and with what importance.
 
 This proposal tries to address these 3 concerns and their implementation into the Kanvas Core.
 
@@ -14,51 +14,51 @@ This proposal tries to address these 3 concerns and their implementation into th
 **Entities:**
 - **Users Notifications Settings:** Users settings per app of which notifications they want to receive and via which channels.
 - **Notifications Types:** List of the current app amiable notification by system module.
-- **Users Notifications Entity relevancy:** Specify the relevancy at which Users get their notifications based on the weight specified by notifications types.
+- **Users Notifications Entity importance:** Specify the importance at which Users get their notifications based on the weight specified by notifications types.
 
 Before the system can handle sending notifications based on settings and frequencies, we have to provide endpoints for allowing uses to manage their settings.
 
 # API
-## Notification Relevancy Endpoints
+## Notification Importance Endpoints
 
-**List all notifications relevancy for the current user.**
-- `GET - /v1/users/{id}/notifications_relevancy`
+**List all notifications importance for the current user.**
+- `GET - /v1/users/{id}/notifications_importance`
     ```
     {
         id: 3,
         entity_id : 100 {user_id},
         system_modules_id: 1 //based on the system module we will know the entity_namespace
-        relevancy_id : 1 //relevancy reference for whats configure on this app
+        importance_id : 1 //importance reference for whats configure on this app
     }
     ```
 
-**List the relevancy for the current entity id in the system module.**
-- `GET - /v1/users/{id}/notifications_relevancy?q=(entity_id:{id},system_modules_id:{id})`
-- `GET - /v1/users/{id}/notifications_relevancy/{entity_id}/system_modules_id/{id}`
+**List the importance for the current entity id in the system module.**
+- `GET - /v1/users/{id}/notifications_importance?q=(entity_id:{id},system_modules_id:{id})`
+- `GET - /v1/users/{id}/notifications_importance/{entity_id}/system_module/{id}`
     ```
     {
         id: 3,
         entity_id : 100 {user_id},
         system_modules_id: 1 //based on the system module we will know the entity_namespace
-        relevancy_id : 1 //relevancy reference for whats configure on this app
+        importance_id : 1 //importance reference for whats configure on this app
     }
     ```
 
-- `POST - /v1/notifications_relevancy` : Create notification relevancy
+- `POST - /v1/users/{id}/notifications_importance` : Create notification importance
     ```
     {
         entity_id : 100 {user_id},
         system_modules_id: 1 //based on the system module we will know the entity_namespace
-        relevancy_id : 1 //relevancy reference for whats configure on this app
+        importance_id : 1 //importance reference for whats configure on this app
     }
     ```
 
-- `PUT - /v1/notifications_relevancy/{id}` : Update notification relevancy
+- `PUT - /v1/notifications_importance/{entity_id}/system_module/{id}` : Update notification importance
     ```
     {
         entity_id : 100 {user_id},
         system_modules_id: 1 //based on the system module we will know the entity_namespace
-        relevancy_id : 1 //relevancy reference for whats configure on this app
+        importance_id : 1 //importance reference for whats configure on this app
     }
     ```
 
@@ -122,13 +122,13 @@ Before the system can handle sending notifications based on settings and frequen
     ```
     {
         new_notification: 1 , //the user object will now return the total # of unread notification
-        system_modules_id: 2 , //add the system module reference to this object so it easy for the frontend to handle relevancy
+        system_modules_id: 2 , //add the system module reference to this object so it easy for the frontend to handle importance
     }
     ```
 
 # Examples 
 
-In order to use this update we will have to provide 2 new Controllers on Kanvas Core and a Trait to use Notification relevancy on any entity within the developers App.
+In order to use this update we will have to provide 2 new Controllers on Kanvas Core and a Trait to use Notification importance on any entity within the developers App.
 
 ### UserNotificationSettingsController
 
@@ -157,17 +157,17 @@ class UsersNotificationSettingsController extends BaseController
 
 ```
 
-### UserNotificationrelevancyController
+### UserNotificationimportanceController
 
 ```php
 /**
  * Handle users notification Settings
  **/
-class UsersNotificationEntityRelevancyController extends BaseController
+class UsersNotificationEntityimportanceController extends BaseController
 {
     public function __construct()
     {
-        $this->model = new UserNotificationEntityrelevancy();
+        $this->model = new UserNotificationEntityimportance();
 
         $this->model->users_id = $this->userData->getId();
         $this->model->apps_id = $this->app->getId();
