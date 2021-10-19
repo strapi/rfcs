@@ -21,7 +21,7 @@ To ensure the best experience for plugin users and developers, we would like to 
 
 ## Impacted User Interfaces
 
-![UI diagram](assets/diagram.png)
+![UI diagram](assets/ui-diagram.png)
 
 ### Plugin Settings
 
