@@ -48,6 +48,7 @@ To display additional information or allow specific actions in the Content Manag
 **List View**
 - Actions (top-right corner): This zone is dedicated to buttons, filters, or select inputs. Example: Locale select (Internationalization).
 - Column(s) (in the table): This zone is dedicated to short texts or icon button(s). Example: SEO score (Yoast)
+
 **Edit View**
 - Actions (top-right corner): This is zone is dedicated to buttons. Example: preview button (Netlify)
 - Sidebar (on the right below the information card): This zone is dedicated to any component that fits in a card of the width of the sidebar. Don't try to put too much in it and focus on the key feature of the plugin. Example: Writing style (Grammarly)
