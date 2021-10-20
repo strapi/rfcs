@@ -45,10 +45,12 @@ Plugins managing content for end-users should add collection and single types to
 
 To display additional information or allow specific actions in the Content Manager, a plugin should use injection zones to embed simple components, such as a card with texts, or a button.
 
-1. **Actions** in the List View (top-right corner of the list view): This zone is dedicated to buttons, filters, or select inputs. Example: Locale select (Internationalization).
-2. **Columns** (one or many columns in the list view): This zone is dedicated to short texts or icon button(s). Example: SEO score (Yoast)
-3. **Sidebar** (below the information card in the sidebar of the edit view): This zone is dedicated to any component that fits in a card of the width of the sidebar. Don't try to put too much in it and focus on the key feature of the plugin. Example: Writing style (Grammarly)
-- **Actions** in the Edit View (top-right corner of the edit view): This is zone is dedicated to buttons. Example: preview button (Netlify)
+**List View**
+- Actions (top-right corner): This zone is dedicated to buttons, filters, or select inputs. Example: Locale select (Internationalization).
+- Column(s) (in the table): This zone is dedicated to short texts or icon button(s). Example: SEO score (Yoast)
+**Edit View**
+- Actions (top-right corner): This is zone is dedicated to buttons. Example: preview button (Netlify)
+- Sidebar (on the right below the information card): This zone is dedicated to any component that fits in a card of the width of the sidebar. Don't try to put too much in it and focus on the key feature of the plugin. Example: Writing style (Grammarly)
 
 ## Navigation
 
