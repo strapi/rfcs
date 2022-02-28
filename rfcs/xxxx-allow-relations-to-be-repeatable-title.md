@@ -1,5 +1,5 @@
-- Start Date: (fill in today's date, YYYY-MM-DD)
-- RFC PR: (leave this empty)
+- Start Date: 2022-02-28
+- RFC PR: 
 
 # Summary
 
@@ -8,7 +8,13 @@ Allow repeatable components to use a relation as their title, screenshots of cha
 
 # Example
 
-If the proposal requires changes to the current API or the creation of new ones, add a basic code example.
+https://github.com/strapi/strapi/compare/master...hamilton-b:bug/relations-not-showing-title?expand=1
+
+Before - see blank title on repeatable:
+<img width="839" alt="before" src="https://user-images.githubusercontent.com/31095524/155505579-6833d850-8192-49d8-a5c1-f61e225dbac3.png">
+
+With change, it will now use the title of the relation
+<img width="880" alt="after" src="https://user-images.githubusercontent.com/31095524/155505674-5463bc6a-a1b5-4012-83a6-067bba46ca15.png">
 
 # Motivation
 
