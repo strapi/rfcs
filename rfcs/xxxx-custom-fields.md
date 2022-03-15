@@ -45,8 +45,6 @@ At a later stage, we would also like to solve more advanced use cases, or even r
 
 ![Installation steps](./flow.png)
 
-Installation steps
-
 There are 3 main areas impacted by this feature:
 
 ### 1. Strapi Market & Settings
