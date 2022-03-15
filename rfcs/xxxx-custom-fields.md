@@ -43,7 +43,7 @@ At a later stage, we would also like to solve more advanced use cases, or even r
 
 # Detailed design
 
-![Installation steps](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d0643e00-04d0-49c8-b849-32881ce0097e/Untitled.png)
+![Installation steps](./flow.png)
 
 Installation steps
 
@@ -57,7 +57,7 @@ In any case, the next step is to configure the field if need be. Entering API ke
 
 ### 2. Content-Type Builder
 
-![content-type builder](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/bb8ff8fb-e4f9-4e02-ba78-ef9e725aa6ee/Untitled.png)
+![content-type builder](./ctb.png)
 
 Once done, the custom field is available in the “custom” tab of the fields picker modal in the Content-Type Builder.
 
@@ -65,13 +65,13 @@ The configuration flow for a custom field should be the same as the native ones.
 
 Note: the custom field badge is a combination of color and icon provided in the Design System. 
 
-![badges](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6559e328-03c4-4764-8e8f-977e5517dc1f/Untitled.png)
+![badges](./badges.png)
 
 Since we are not introducing any new field type, the content type schema won’t change in structure. This also means the custom fields have the same options as the native ones (ex: required, unique, etc), as well as some additional validation rules. 
 
 ### 3. Content Manager
 
-![content manager](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/fd5eb2c5-6be2-43a4-8be2-9d2e7c3906c6/Untitled.png)
+![content manager](./content-manager.png)
 
 Once properly set up, the real magic happens in the Content Manager. Instead of seeing the usual text fields, you can now interact with maps, videos, color pickers, etc.
 
