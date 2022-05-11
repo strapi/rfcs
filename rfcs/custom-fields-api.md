@@ -77,9 +77,9 @@ interface CustomFieldAdminOptions {
   };
   // The settings to extend in the Content-Type Builder
   options?: {
-    base: CTBFormSection[],
-    advanced: CTBFormSection[],
-    validator: (args) => object
+    base: CTBFormSection[];
+    advanced: CTBFormSection[];
+    validator: (args) => object;
   }
 }
 
@@ -90,7 +90,7 @@ interface IntlObject {
 
 interface CTBFormSection {
   sectionTitle: IntlObject;
-  items: CTBFormInput[]
+  items: CTBFormInput[];
 }
 
 interface CTBFormInput {
@@ -145,7 +145,7 @@ register(app) {
     type: "text", // store the color as a text in 
     intlLabel: {
       id: "color-picker.color.label",
-      defaultMessage: "Color"
+      defaultMessage: "Color",
     },
     intlDescription: {
       id: "color-picker.color.description",
@@ -166,7 +166,7 @@ register(app) {
           items: [
             {
               intlLabel: {
-                id: 'color-picker.color.format.label'),
+                id: 'color-picker.color.format.label',
                 defaultMessage: 'Color format',
               },
               name: 'pluginOptions.color-picker.format',
