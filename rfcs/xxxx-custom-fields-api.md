@@ -169,7 +169,7 @@ register(app) {
                 id: 'color-picker.color.format.label',
                 defaultMessage: 'Color format',
               },
-              name: 'pluginOptions.color-picker.format',
+              name: 'options.format',
               type: 'select',
               value: 'hex',
               options: [
@@ -217,10 +217,8 @@ When someone adds an attribute to a content type using our “color” custom fi
     "attributeName": {
       "type": "customField",
       "customField": "plugin::color-picker.color",
-      "pluginOptions": {
-        "color-picker": {
-          "format": "hex"
-        }
+      "options": {
+        "format": "hex"
       }
     }
   }
