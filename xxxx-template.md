@@ -5,10 +5,6 @@
 
 Description of the proposed feature or proposed changes.
 
-# Example
-
-If the proposal requires changes to the current API or the creation of new ones, add a basic code example.
-
 # Motivation
 
 Please make sure to explain the motivation for this proposal. 
@@ -22,6 +18,10 @@ Describe the proposal in detail:
 
 - Explaining the design so that someone who knows Strapi can understand and someone who works on it can implement the proposal. 
 - Think about edge cases and include examples.
+
+# Example
+
+If the proposal requires changes to the current API or the creation of new ones, add a basic code example.
 
 # Tradeoffs
 
