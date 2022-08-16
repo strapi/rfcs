@@ -7,9 +7,9 @@ Add the option to convert all uploaded images to WebP or AVIF instead of just re
 
 # Motivation
 
-WebP and AVIF are superior formats for the web and are growing in support very fast.
+WebP and AVIF are superior formats for the web and support is growing very fast.
 
-It got to a point where some projects could decide to only work with these formats to improuve the user experience without adding engeneering complexity or hosting costs.
+It got to a point where some projects could decide to **only** work with these formats to improuve the user experience without adding engeneering complexity or hosting costs.
 
 One could even argue that this could make your service more ecologically friendly, by reducing the data transfered on every page load.
 
@@ -21,13 +21,11 @@ One could even argue that this could make your service more ecologically friendl
 - [WebP Compression Study - by Google](https://developers.google.com/speed/webp/docs/webp_studyhttps://developers.google.com/speed/webp/docs/webp_studyhttps://developers.google.com/speed/webp/docs/webp_study)
 - [WebP vs AVIF - by avif.org](https://avif.io/blog/comparisons/avif-vs-webp/)
 
-TLDR: WebP competes with JPEG on image size. AVIF can have a great image quality without being too heavy.
-
 ### How good is browser support?
 
-As of Agust 2022 of the major browsers that don't support it:
+As of Agust 2022 of the major browsers that don't support it are:
 - WebP: Only IE does not support it
-- AVIF: Edge and other smaller browsers have no support, and Safari desktop has partial support
+- AVIF: Edge and other smaller browsers don't have support, and Safari desktop has partial support
 
 Sources:
 - [https://caniuse.com/webp](https://caniuse.com/webp)
@@ -37,10 +35,14 @@ Sources:
 
 This could be done directly in [/packages/core/upload/server/services/image-manipulation.js](https://github.com/strapi/strapi/blob/master/packages/core/upload/server/services/image-manipulation.js) file.
 
-A member of the community already had a prototype (no affiliation with him):
+A member of the community already had a prototype (no affiliation):
 https://github.com/devgar/strapi/blob/243d914efeebfdb44b236af76689c30b73fed646/packages/strapi-plugin-upload/services/image-manipulation.js
 
 Basically it would instruct `sharp` package to transform to `webp` or `avif`. This would **not** require an aditional dependency, not even a new import in the file.
+
+It will of course still resizes images like before (e.g. `large`, `medium` ...).
+
+These changes being applied only at the upload phase, would not require all the images to be reformatted making it pretty safe for retro-compatibility. And it can be turned on and off without much consequences.
 
 # Example
 
@@ -59,16 +61,8 @@ export default ({ env }) => ({
 
 # Tradeoffs
 
-Even if I'm pretty confident that is a good decision for many of us, it is **opinionated**. This could be mitigated by adding more formats as targets like `png` or `jpeg`.
-
-What potential tradeoffs are involved with this proposal.
-
-- Complexity
-- Workload of implementation
-- Can this be implemented outside of Strapi's core packages
-- How does this proposal integrate with the current features being implemented
-- Cost of migrating existing Strapi applications (is it a breaking change?)
-- Does implementing this proposal mean reworking teaching resources (videos, tutorials, documentation)?
+- Even if I'm pretty confident that is a good decision for many of us, it is **opinionated**. This could be mitigated by adding more formats as targets like `png` or `jpeg`.
+- I don't know how computer intensive it is to do the transformation.
 
 # Alternatives
 
