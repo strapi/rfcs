@@ -25,26 +25,41 @@ TLDR: WebP competes with JPEG on image size. AVIF can have a great image quality
 
 ### How good is browser support?
 
-Look for yourself:
-- [https://caniuse.com/webp](https://caniuse.com/webp)
-- [https://caniuse.com/avif](https://caniuse.com/avif)
-
 As of Agust 2022 of the major browsers that don't support it:
 - WebP: Only IE does not support it
 - AVIF: Edge and other smaller browsers have no support, and Safari desktop has partial support
 
+Sources:
+- [https://caniuse.com/webp](https://caniuse.com/webp)
+- [https://caniuse.com/avif](https://caniuse.com/avif)
+
 # Detailed design
 
-Describe the proposal in detail:
+This could be done directly in [/packages/core/upload/server/services/image-manipulation.js](https://github.com/strapi/strapi/blob/master/packages/core/upload/server/services/image-manipulation.js) file.
 
-- Explaining the design so that someone who knows Strapi can understand and someone who works on it can implement the proposal. 
-- Think about edge cases and include examples.
+A member of the community already had a prototype (no affiliation with him):
+https://github.com/devgar/strapi/blob/243d914efeebfdb44b236af76689c30b73fed646/packages/strapi-plugin-upload/services/image-manipulation.js
+
+Basically it would instruct `sharp` package to transform to `webp` or `avif`. This would **not** require an aditional dependency, not even a new import in the file.
 
 # Example
 
-If the proposal requires changes to the current API or the creation of new ones, add a basic code example.
+Something like this:
+```ts
+// path: ./config/plugins.ts
+
+export default ({ env }) => ({
+  upload: {
+    config: {
+        convertAllImagesTo: 'webp' | 'avif'; // To be defined
+    },
+  },
+});
+```
 
 # Tradeoffs
+
+Even if I'm pretty confident that is a good decision for many of us, it is **opinionated**. This could be mitigated by adding more formats as targets like `png` or `jpeg`.
 
 What potential tradeoffs are involved with this proposal.
 
@@ -57,8 +72,11 @@ What potential tradeoffs are involved with this proposal.
 
 # Alternatives
 
-What are the alternatives?
+I guess this could be done in a plugin. But this would require replacing the official `strapi-plugin-update` for a community one. This plugin is quite big and important, I wouldn't recommend replacing it with a community-maintained plugin.
+
+If is not in the official one, I wouldn't bother doing it.
 
 # Unresolved questions
 
-Optional, but suggested for first draft proposals. What parts of the design are still TBD(To be defined)?
+- Should it support many different formats (e.g. `png` and `jpeg`) or just work with `webp` and `avif` which are the ones that should be used? More formats would make it less opinionated but would add more maintenance, and may not be that relevant.
+- How should the `./config/plugins.ts` look like?
