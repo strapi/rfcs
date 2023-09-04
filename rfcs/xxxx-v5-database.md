@@ -1,6 +1,5 @@
 - Start Date: (fill in today's date, 2023-09-04)
-- RFC PR: (leave this empty)
-
+- RFC PR: https://github.com/strapi/rfcs/pull/52
 # Summary
 
 We need to support development of new features. Most of them are going towards a more CMS like model. to support this approach we will introduce the notion of `documents` & `links`.
