@@ -1,4 +1,4 @@
-- Start Date: (fill in today's date, 2023-09-04)
+- Start Date: 2023-09-04
 - RFC PR: https://github.com/strapi/rfcs/pull/52
 # Summary
 
