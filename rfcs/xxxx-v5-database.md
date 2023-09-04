@@ -27,7 +27,9 @@ Instead of breaking v4 relations `Links` will be a different type, and v4 relati
 
 Documents are introduced in v5 as a way to group multiple entries. That is implemented by adding a new `document_id` column in entries:
 
-![Untitled]()
+<p align="center">
+	<img src="https://github.com/strapi/rfcs/assets/20578351/4a02817e-4004-45ee-9e4a-a755e66c2064" width="300px" />
+</p>
 
 Also, all the variations of that document will have its own column in every entry:
 
@@ -54,7 +56,10 @@ While the probability of two UUIDs colliding is not zero, it is practically negl
 
 In V4, you might have encountered this situation:
 
-![Untitled]()
+<p align="center">
+	<img src="https://github.com/strapi/rfcs/assets/20578351/01061116-478b-465f-9b3b-a88ea02598c6" width="600px" />
+</p>
+
 
 When relating an article to a specific author in V4, only articles and authors of the same locale could be linked, because localizations were not really grouped in a single document.
 
@@ -62,25 +67,31 @@ Thus, if an author did not have a locale that matched the article's, creating a 
 
 `Links` will solve this by referencing a document as a whole, not a specific locale:
 
-![Untitled]()
+<p align="center">
+	<img src="https://github.com/strapi/rfcs/assets/20578351/da52c5de-57c2-4ced-8986-e0f6787d8892" width="600px" />
+</p>
 
----
 
 ### Synchronize links across locales
 
 In V4, if you want to keep the same relation across the same locales, one would have to manually create them, with the risk of missing one.
 
-![Untitled]()
+<p align="center">
+	<img src="https://github.com/strapi/rfcs/assets/20578351/0e2729fe-7673-490b-9493-9ea3a8fb4470" width="600px" />
+</p>
 
 In V5, `links` will offer the possibility to be synchronized across locales.
 
-![Untitled]()
+<p align="center">
+	<img src="https://github.com/strapi/rfcs/assets/20578351/0d5841dd-89b1-42f6-bed5-b463f40f515b" width="600px" />
+</p>
 
 As an additional comment, the synched relation will only affect the locales inside the same publication state. Meaning, relations will not be shared between the `draft` and `published` versions of the document.
 
-![Untitled]()
+<p align="center">
+	<img src="https://github.com/strapi/rfcs/assets/20578351/4a69c2e3-628e-45b1-8c77-338272a61c32" width="600px" />
+</p>
 
----
 
 ### Polymorphic links
 
@@ -88,7 +99,9 @@ V5 will eventually support polymorphic links.
 
 Those will allow use cases like Website Menus , linked to many other content types
 
-![Untitled]()
+<p align="center">
+	<img src="https://github.com/strapi/rfcs/assets/20578351/29628824-c735-4776-b651-4c99ad11db8f" width="500px" />
+</p>
 
 This was just not possible in V4.
 
@@ -114,7 +127,9 @@ Links will be represented as so in the content type schema:
 
 The database schema of `links` join tables :
 
-![Untitled]()
+<p align="center">
+	<img src="https://github.com/strapi/rfcs/assets/20578351/f6ebb23e-c6e7-47b6-bdae-8030c80786a6" width="700px" />
+</p>
 
 The join table will now contain:
 
