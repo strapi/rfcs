@@ -111,14 +111,14 @@ Links will be represented as so in the content type schema:
 ```jsx
 {
   attributes: {
-    “myLink”: {
-       “type”: "link",
-			 // Target one (or multiple) content types.
-			 // Target all by not defining target
-       “target”: "uid-a" | ["uid-a", "uid-b"] | undefined,
-       “multiple”: true|false
-		}
-	}
+    myLink: {
+      type: "link",
+      // Target one (or multiple) content types.
+      // Target all by not defining target
+      target: "uid-a" | ["uid-a", "uid-b"] | undefined,
+      multiple: true|false
+    }
+  }
 }
 ```
 
