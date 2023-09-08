@@ -33,7 +33,7 @@ Documents are introduced in v5 as a way to group multiple entries. That is imple
 Also, all the variations of that document will have its own column in every entry:
 
 - `locale` for i18n
-- `publicationState` for draft and publish
+- `publication_state` for draft and publish
 
 ## Document id and entry id
 
