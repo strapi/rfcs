@@ -127,7 +127,7 @@ Links will be represented as so in the content type schema:
 The database schema of `links` join tables :
 
 <p align="center">
-	<img src="https://github.com/strapi/rfcs/assets/20578351/289331fe-454e-4f22-b688-8890795fee21" width="700px" />
+	<img src="https://github.com/strapi/rfcs/assets/20578351/c866277d-92da-4861-891c-22cafa207a65" width="700px" />
 </p>
 
 
